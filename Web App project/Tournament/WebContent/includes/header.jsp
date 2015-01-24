@@ -1,18 +1,3 @@
-<!DOCTYPE html>
-<html>
-<head>
-<meta charset="ISO-8859-1">
-<title>Insert title here</title>
- <link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css">
-  <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
-  <script src="http://maxcdn.bootstrapcdn.com/bootstrap/3.2.0/js/bootstrap.min.js"></script>
-  <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
-
-
-
-</head>
-<body>
-
 <nav class="navbar navbar-inverse">
   <div class="container-fluid">
     <div class="navbar-header">
@@ -25,8 +10,8 @@
     </div>
     <div class="collapse navbar-collapse" id="myNavbar">
       <ul class="nav navbar-nav">
-        <li id='home' ><a href="/Tournament-Tracker/index.html">Home</a></li>
-         <li id='createBracket'><a href="/Tournament-Tracker/BracketCreation/createBracket.html">Create Bracket</a></li>
+        <li id='home' ><a href="/index.jsp">Home</a></li>
+         <li id='createBracket'><a href="/BracketCreation/createBracket.jsp">Create Bracket</a></li>
           <li id='page2'><a href="#">Page 2</a></li>
         <li id='page3' class="dropdown">        
           <a class="dropdown-toggle" data-toggle="dropdown" href="#">Page 3 <span class="caret"></span></a>
@@ -39,13 +24,9 @@
       </ul>
       <ul class="nav navbar-nav navbar-right">
         <li><a href="#"><span class="glyphicon glyphicon-user"></span> Sign Up</a></li>
-        <li><a href="/Tournament-Tracker/Login/login.jsp"><span class="glyphicon glyphicon-log-in"></span> Login</a></li>
+        <li><a href="/Login/login.jsp"><span class="glyphicon glyphicon-log-in"></span> Login</a></li>
       </ul>
     </div>
   </div>
-</nav> 
-
-
-</body>
-</html>
+</nav>
 
