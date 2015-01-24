@@ -11,7 +11,10 @@
  <script src='http://ajax.googleapis.com/ajax/libs/jqueryui/1.7.2/jquery-ui.min.js' type='text/javascript'></script> 
  
    <link rel="stylesheet" type="text/css" href="NewFile.css">
-  
+    <%@include file="/includes/head.jsp" %>
+      <script>
+         $( document ).ready(function() { loadPage() });
+      </script>
     
  
 
@@ -258,7 +261,7 @@
  
 </head>
 <body>
-<div id='header'></div>
+<%@include file="/includes/header.jsp" %>
     
 <div id="writeHere" class="tournament"></div>  
 </body>
