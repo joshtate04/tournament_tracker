@@ -24,21 +24,23 @@ public class LoginServlet extends HttpServlet{
         PrintWriter out = response.getWriter();    
           
         String n=request.getParameter("username");    
-        String p=request.getParameter("userpass");   
-          
-        HttpSession session = request.getSession(false);  
-        if(session!=null)  
-        session.setAttribute("name", n);  
+        String p=request.getParameter("password");   
   
         User user = User.find_by_authentication(n,p);
-        if(user != null){    
+        if(user != null){
+        	out.print("Test");
+            HttpSession session = request.getSession(false);  
+            if(session!=null)  
+            session.setAttribute("name", n);  
+
             RequestDispatcher rd=request.getRequestDispatcher("/Login/welcome.jsp");    
-            rd.forward(request,response);    
+            rd.forward(request,response);
         }    
         else{    
-            out.print("<p style=\"color:red\">Sorry username or password error</p>");    
-            RequestDispatcher rd=request.getRequestDispatcher("Login/login.jsp");    
-            rd.include(request,response);    
+            //out.print("<p style=\"color:red\">Sorry username or password error</p>");    
+            RequestDispatcher rd=request.getRequestDispatcher("Login/login.jsp");
+            response.addHeader("login", "fail");
+            rd.forward(request,response);
         }    
   
         out.close();    

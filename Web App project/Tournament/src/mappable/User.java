@@ -14,6 +14,7 @@ public class User extends Mappable {
 	private String email;
 	
 	public User(String name) {
+		super();
 		this.first_name = name;
 		this.last_name = name;
 		this.email = name;
@@ -28,7 +29,16 @@ public class User extends Mappable {
 	public String get_first_name(){ return first_name; }
 	public String get_last_name(){ return last_name; }
 	
+	
+	/**
+	 * This method will return a user if it exists in the database
+	 * @param username
+	 * @param password
+	 * @return User or null
+	 */
 	public static User find_by_authentication(String username, String password){
+		System.out.println("Attempting to log in...");
+		
 		Connection conn = (Connection) new DatabaseConnection("root","root").connect();
 		User user = null;
 		
@@ -43,8 +53,8 @@ public class User extends Mappable {
 			ResultSet rs = pst.executeQuery();
 			
 			if (rs.next()){
-				System.out.println(rs.toString());
 				user = new User(rs.getString(2));
+				System.out.println("USER FOUND!!");
 			}
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
@@ -73,8 +83,25 @@ public class User extends Mappable {
 	}
 
 	public boolean validate() {
-		// TODO Auto-generated method stub
-		return false;
+		boolean status = true;
+		Connection conn = new DatabaseConnection("root","root").connect();
+		PreparedStatement pst = null;
+		ResultSet rs = null;
+		
+		//UNIQUE EMAILS ONLY
+		try {
+			pst = conn.prepareStatement("select * from users where email=?");
+			pst.setString(1, email);
+			rs = pst.executeQuery();
+			
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			return false;
+		}
+		
+		
+		
+		return status;
 	}
 
 	public boolean destroy() {

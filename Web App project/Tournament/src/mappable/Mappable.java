@@ -5,12 +5,15 @@ import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.HashMap;
 
 public abstract class Mappable {
 	private int id;
+	private HashMap<String, ArrayList<String>> errors;
 	
 	public Mappable(){
-		
+		errors = new HashMap<String, ArrayList<String>>();
 	}
 	
 	// Instance CRUD methods
@@ -26,4 +29,8 @@ public abstract class Mappable {
 	public abstract Mappable find(int id);
 	public abstract Mappable[] where(String query);
 	public abstract Mappable[] where();
+	
+	public HashMap<String, ArrayList<String>> errors(){
+		return errors;
+	}
 }
