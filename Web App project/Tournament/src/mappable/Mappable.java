@@ -9,7 +9,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 
 public abstract class Mappable {
-	private int id;
+	protected int id;
 	private HashMap<String, ArrayList<String>> errors;
 	
 	public Mappable(){

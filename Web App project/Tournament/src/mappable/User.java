@@ -12,12 +12,27 @@ public class User extends Mappable {
 	private String first_name;
 	private String last_name;
 	private String email;
+	private String password;
+	private String password_confirmation;
 	
 	public User(String name) {
 		super();
 		this.first_name = name;
 		this.last_name = name;
 		this.email = name;
+	}
+	
+	public final int MIN_PASSWORD_LENGTH = 8;
+	
+	public User(String first_name, String last_name, String email, String password, String password_confirmation){
+		super();
+		this.first_name = first_name;
+		this.last_name = last_name;
+		this.email = email;
+		
+		if (!password.isEmpty()){
+			this.password = password;
+		}
 	}
 
 	// User-specific methods
@@ -72,13 +87,14 @@ public class User extends Mappable {
 	// Mappable Methods
 	public boolean save() {
 		// Run before save callbacks
-		before_save();
+		
 		
 		// Validate User
 		if (!validate())
 			return false; // Return false if 
 		
 		// TODO SQL here
+		after_save();
 		return true;
 	}
 
@@ -88,6 +104,7 @@ public class User extends Mappable {
 		PreparedStatement pst = null;
 		ResultSet rs = null;
 		
+		
 		//UNIQUE EMAILS ONLY
 		try {
 			pst = conn.prepareStatement("select * from users where email=?");
@@ -95,11 +112,25 @@ public class User extends Mappable {
 			rs = pst.executeQuery();
 			
 		} catch (SQLException e) {
-			// TODO Auto-generated catch block
-			return false;
+			add_error("Email", "email is already taken");
+			status = false;
 		}
 		
+		//PASSWORD MUST BE AT LEAST 8 CHARS
+		if (password != null){
+			if (password.length() < MIN_PASSWORD_LENGTH){
+				status = false;
+				add_error("Password","must be at least "+MIN_PASSWORD_LENGTH+" characters long");
+			}
+		}
 		
+		//PASSWORD MUST MATCH (IF PRESENT)
+		if (password != null || password_confirmation != null){
+			if (!password.equals(password_confirmation)){
+				status = false;
+				add_error("Password Confirmation","does not match password");
+			}
+		}
 		
 		return status;
 	}
@@ -114,8 +145,13 @@ public class User extends Mappable {
 
 	}
 
+	private void add_error(String key, String error_message){
+		
+	}
+	
 	public void after_save() {
-		// TODO Auto-generated method stub
+		password = null;
+		password_confirmation = null;
 
 	}
 
