@@ -4,7 +4,7 @@
    <head>
       <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
       <title>Login Application</title>
-      <link rel="stylesheet" type="text/css" href="login.css">
+      <link rel="stylesheet" type="text/css" href="/Login/login.css">
       <%@include file="/includes/head.jsp" %>
       <script>
          $( document ).ready(function() { loadPage() });
