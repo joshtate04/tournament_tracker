@@ -11,6 +11,7 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;  
   
 import com.amzi.dao.LoginDao;  
+import mappable.User;
   
 public class LoginServlet extends HttpServlet{  
   
@@ -23,20 +24,21 @@ public class LoginServlet extends HttpServlet{
         PrintWriter out = response.getWriter();    
           
         String n=request.getParameter("username");    
-        String p=request.getParameter("userpass");   
-          
-        HttpSession session = request.getSession(false);  
-        if(session!=null)  
-        session.setAttribute("name", n);  
+        String p=request.getParameter("password");   
   
-        if(LoginDao.validate(n, p)){    
+        User user = User.find_by_authentication(n,p);
+        if(user != null){
+            HttpSession session = request.getSession(false);  
+            if(session!=null)  
+            	session.setAttribute("name", n);  
+
             RequestDispatcher rd=request.getRequestDispatcher("/Login/welcome.jsp");    
-            rd.forward(request,response);    
+            rd.forward(request,response);
         }    
-        else{    
-            out.print("<p style=\"color:red\">Sorry username or password error</p>");    
-            RequestDispatcher rd=request.getRequestDispatcher("index.jsp");    
-            rd.include(request,response);    
+        else{     
+            RequestDispatcher rd=request.getRequestDispatcher("Login/login.jsp");
+            response.addHeader("login", "fail");
+            rd.forward(request,response);
         }    
   
         out.close();    
