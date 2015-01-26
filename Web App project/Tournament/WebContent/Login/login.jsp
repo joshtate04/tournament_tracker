@@ -39,8 +39,8 @@
 		      						<input type="text" placeholder='Username' class='form-control' name='username' id='username' />
 		      					</div>
 		      					<div class='form-group'>
-		      						<input type="text" placeholder='Password' class='form-control' name='password' id='password' />
-		      						<% if (response.getHeader("login") == "fail") { %><span class='text-danger'>Sorry, we couldn't log you in!</span><% } %>
+		      						<input type="password" placeholder='Password' class='form-control' name='password' id='password' />
+		      						<% if (response.getHeader("login") == "fail") { %><span class='text-danger animated flash'>Sorry, we couldn't log you in!</span><% } %>
 		      					</div>
 		      					<div class='form-group'>
 		      						<a href='#'>Forgot your password?</a>

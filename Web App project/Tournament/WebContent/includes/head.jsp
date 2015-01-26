@@ -5,4 +5,5 @@
 <script src="/js/loadPage.js"></script>
 <link rel="stylesheet" type='text/css' href='/css/bootstrap.css'>
 <link rel="stylesheet" type='text/css' href='/css/material.css'>
+<link rel="stylesheet" type='text/css' href='/css/animate.css'>
 <link rel="stylesheet" type='text/css' href='/css/override.css'>
