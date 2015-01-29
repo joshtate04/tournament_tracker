@@ -1,0 +1,163 @@
+.navbar {
+	border-radius: 0;
+}
+.navbar-default {
+  background-color: #27C400;
+  border-color: transparent;
+}
+
+.navbar-default .navbar-brand {
+  color: #ffffff;
+  background-color: #008E00;
+}
+.navbar-default .navbar-brand:hover,
+.navbar-default .navbar-brand:focus {
+  color: #dddddd;
+  background-color: #008E00;
+}
+.navbar-default .navbar-text {
+  color: #bbbbbb;
+}
+.navbar-default .navbar-nav > li > a {
+  color: #ffffff;
+}
+.navbar-default .navbar-nav > li > a:hover,
+.navbar-default .navbar-nav > li > a:focus {
+  color: #eeeeee;
+  background-color: transparent;
+}
+.navbar-default .navbar-nav > .active > a,
+.navbar-default .navbar-nav > .active > a:hover,
+.navbar-default .navbar-nav > .active > a:focus {
+  color: #212121;
+  background-color: #eeeeee;
+}
+.navbar-default .navbar-nav > .disabled > a,
+.navbar-default .navbar-nav > .disabled > a:hover,
+.navbar-default .navbar-nav > .disabled > a:focus {
+  color: #cccccc;
+  background-color: transparent;
+}
+.navbar-default .navbar-toggle {
+  border-color: transparent;
+}
+.navbar-default .navbar-toggle:hover,
+.navbar-default .navbar-toggle:focus {
+  background-color: transparent;
+}
+.navbar-default .navbar-toggle .icon-bar {
+  background-color: rgba(0, 0, 0, 0.5);
+}
+.navbar-default .navbar-collapse,
+.navbar-default .navbar-form {
+  border-color: transparent;
+}
+.navbar-default .navbar-nav > .open > a,
+.navbar-default .navbar-nav > .open > a:hover,
+.navbar-default .navbar-nav > .open > a:focus {
+  background-color: #008E00;
+  color: #dddddd;
+}
+@media (max-width: 767px) {
+  .navbar-default .navbar-nav .open .dropdown-menu > li > a {
+    color: #666666;
+  }
+  .navbar-default .navbar-nav .open .dropdown-menu > li > a:hover,
+  .navbar-default .navbar-nav .open .dropdown-menu > li > a:focus {
+    color: #212121;
+    background-color: transparent;
+  }
+  .navbar-default .navbar-nav .open .dropdown-menu > .active > a,
+  .navbar-default .navbar-nav .open .dropdown-menu > .active > a:hover,
+  .navbar-default .navbar-nav .open .dropdown-menu > .active > a:focus {
+    color: #212121;
+    background-color: #eeeeee;
+  }
+  .navbar-default .navbar-nav .open .dropdown-menu > .disabled > a,
+  .navbar-default .navbar-nav .open .dropdown-menu > .disabled > a:hover,
+  .navbar-default .navbar-nav .open .dropdown-menu > .disabled > a:focus {
+    color: #cccccc;
+    background-color: transparent;
+  }
+}
+.navbar-default .navbar-link {
+  color: #666666;
+}
+.navbar-default .navbar-link:hover {
+  color: #212121;
+}
+.navbar-default .btn-link {
+  color: #666666;
+}
+.navbar-default .btn-link:hover,
+.navbar-default .btn-link:focus {
+  color: #212121;
+}
+.navbar-default .btn-link[disabled]:hover,
+fieldset[disabled] .navbar-default .btn-link:hover,
+.navbar-default .btn-link[disabled]:focus,
+fieldset[disabled] .navbar-default .btn-link:focus {
+  color: #cccccc;
+}
+
+.btn-primary {
+  background-image: -webkit-radial-gradient(circle, #27C400 80%, #008E00 81%);
+  background-image: -o-radial-gradient(circle, #27C400 80%, #008E00 81%);
+  background-image: radial-gradient(circle, #27C400 80%, #008E00 81%);
+  background-repeat: no-repeat;
+  -webkit-background-size: 200% 200%;
+          background-size: 200%;
+  background-position: 50%;
+  -webkit-transition: background-size 250ms;
+       -o-transition: background-size 250ms;
+          transition: background-size 250ms;
+}
+.btn-primary:hover {
+  -webkit-background-size: 100% 100%;
+          background-size: 100%;
+  border-color: #008E00;
+}
+.btn-primary:active {
+  background-color: #0d87e9;
+  background-image: -webkit-radial-gradient(circle, #008E00 10%, #27C400 11%);
+  background-image: -o-radial-gradient(circle, #008E00 10%, #27C400 11%);
+  background-image: radial-gradient(circle, #008E00 10%, #27C400 11%);
+  background-repeat: no-repeat;
+  -webkit-background-size: 1000% 1000%;
+          background-size: 1000%;
+  -webkit-box-shadow: 2px 2px 2px rgba(0, 0, 0, 0.3);
+  box-shadow: 2px 2px 2px rgba(0, 0, 0, 0.3);
+}
+
+.panel-primary {
+  border-color: #27C400;
+}
+.panel-primary > .panel-heading {
+  color: #ffffff;
+  background-color: #27C400;
+  border-color: #27C400;
+}
+.panel-primary > .panel-heading + .panel-collapse > .panel-body {
+  border-top-color: #27C400;
+}
+.panel-primary > .panel-heading .badge {
+  color: #27C400;
+  background-color: #ffffff;
+}
+
+a {
+    color: #27C400;
+    text-decoration: none;
+}
+
+a:hover,
+a:focus {
+    color: #008E00;
+    text-decoration: underline;
+}
+
+a:focus {
+    outline: thin dotted;
+    outline: 5px auto -webkit-focus-ring-color;
+    outline-offset: -2px;
+}
