@@ -1,28 +1,62 @@
 package mappable;
 
+import org.yaml.snakeyaml.Yaml;
+
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.InputStream;
 import java.sql.Connection;  
-import java.sql.DriverManager;  
-import java.sql.PreparedStatement;  
-import java.sql.ResultSet;  
-import java.sql.SQLException; 
+import java.sql.DriverManager; 
+import java.util.Map;
 
 public class DatabaseConnection {
 	private String username;
 	private String password;
+	private String dbName;
+	private String port;
+	private String driver;
+	private String url;
+	private Yaml yaml;
 
-	public DatabaseConnection(String username, String password) {
-		this.username = username;
-		this.password = password;
+	public DatabaseConnection() {
+		yaml = new Yaml();
+		try {
+			
+			InputStream input = this.getClass().getClassLoader().getResourceAsStream("mappable/config.yml");
+			//yaml.load(input);
+			@SuppressWarnings("unchecked")
+			Map<String,Object> result = (Map<String,Object>)yaml.load(input);
+			System.out.println(result.toString());
+			
+			@SuppressWarnings("unchecked")
+			Map<String,Object> params = (Map<String, Object>) result.get("database");
+			username = (String)params.get("username");
+			password = (String)params.get("password");
+			url = (String)params.get("url");
+			dbName = (String)params.get("dbName");
+			port = (String)params.get("port").toString();
+			driver = (String)params.get("driver");
+			
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			yaml = null;
+			e.printStackTrace();
+		}
+		
+		
+	}
+	
+	private String connectionParams(){
+		return url+":"+port+"/";
 	}
 	
 	public Connection connect(){
-		String url = "jdbc:mysql://localhost:3306/";  
-        String dbName = "tournament-tracker";  
-        String driver = "com.mysql.jdbc.Driver";
+		if(yaml == null){ return null; }
 		
 		try {  
             Class.forName(driver).newInstance();  
-            return DriverManager.getConnection(url + dbName, username, password); 
+            return DriverManager.getConnection(connectionParams() + dbName, username, password); 
             
         } catch (Exception e) {  
         	e.printStackTrace();
