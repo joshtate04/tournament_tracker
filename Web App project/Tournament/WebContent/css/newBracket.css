@@ -1,0 +1,63 @@
+.tournament {          
+    border: dashed 1px solid;  
+    overflow: auto;  
+  }  
+  .tournament .bracket {       
+    min-width: 100px;      
+    vertical-align: top;  
+    float: left;  
+    
+  }   
+  
+  .score{
+  	float:right;
+  	margin-right: 20px;
+  	margin-left: 20px;
+  }
+    
+  .tournament .bracket .match {     
+    border-top: 1px solid;  
+    border-right: 1px solid;  
+    border-bottom: 1px solid;    
+  }  
+  .tournament .bracket .match .p1 {      
+    height: 20px;     
+    background-color: #E0E0E0; 
+  }  
+  .tournament .bracket .match .p2 {  
+  	background-color: #E0E0E0;
+    height: 20px;  
+  }      
+  .tournament .bracket .match .spacer {   
+    height: 38px;  
+  }  
+  .tournament .bracket .spacer {  
+    height: 80px;  
+  }  
+  .tournament .bracket .half-spacer {  
+    height: 40px;  
+  }  
+  .tournament .bracket .small-spacer {  
+    height: 10px;     
+  }  
+  .tournament .bracket .winner {  
+    border-bottom: 1px solid; 
+     
+  }  
+    
+  .left-line {  
+    border-left: 1px solid;  
+  }  
+    
+  .tournament .cell {  
+    min-width: 100px;  
+    height: 20px;  
+    float: left;        
+  }     
+  .tournament .l2 {  
+      
+  }       
+  .tournament .lmax {  
+    width: 0px;  
+    clear: both;      
+  }      
