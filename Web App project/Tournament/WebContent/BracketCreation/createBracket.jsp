@@ -1,268 +1,1374 @@
-<!DOCTYPE html>
+<%@ page language="java" contentType="text/html; charset=ISO-8859-1"
+    pageEncoding="ISO-8859-1"%>
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
+
 <head>
-<link rel="stylesheet" type="text/css" href="addBracket.css">
+<meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
+<title>Create Bracket</title>
+<%@include file="/includes/head.jsp" %>
+<script type="text/javascript" src="/js/jquery.bracket.min.js"></script>
+<script src="/js/underscore-min.js"></script>
+<link rel="stylesheet" type="text/css" href="/css/newBracket.css" />
 
-  <title>Bootstrap Case</title>
-  <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
- <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
-  <script src='http://ajax.googleapis.com/ajax/libs/jquery/1.4.2/jquery.min.js' type='text/javascript'></script>  
- <script src='http://ajax.googleapis.com/ajax/libs/jqueryui/1.7.2/jquery-ui.min.js' type='text/javascript'></script> 
- 
-   <link rel="stylesheet" type="text/css" href="NewFile.css">
-    <%@include file="/includes/head.jsp" %>
-      <script>
-         $( document ).ready(function() { loadPage() });
-      </script>
-    
- 
 
- <script type="text/javascript">  
- 
- 
- var teamInfo = {
-	     "team": [{
-	             "id": 1,
-	             "name": "Team 1",
-	             "rank": 1,
-	         }, {
-	             "id": 2,
-	             "name": "Team 2",
-	             "rank": 2,
-	         }, {
-	             "id": 3,
-	             "name": "Team 3",
-	             "rank": 3,
-	         }, {
-	             "id": 4,
-	             "name": "Team 4",
-	             "rank": 4,
-	         }, {
-	             "id": 5,
-	             "name": "Team 5",
-	             "rank": 5,
-	         }, {
-	             "id": 6,
-	             "name": "Team 6",
-	             "rank": 6,
-	         }, {
-	             "id": 7,
-	             "name": "Team 7",
-	             "rank": 7,
-	         }, {
-	             "id": 8,
-	             "name": "Team 8",
-	             "rank": 8,
-	         }, {
-	             "id": 9,
-	             "name": "Team 9",
-	             "rank": 9,
-	         }, {
-	             "id": 10,
-	             "name": "Team 10",
-	             "rank": 10,
-	         }, {
-	             "id": 11,
-	             "name": "Team 11",
-	             "rank": 11,
-	         }, {
-	             "id": 12,
-	             "name": "Team 12",
-	             "rank": 12,
-	         }, {
-	             "id": 13,
-	             "name": "Team 13",
-	             "rank": 13,
-	         }, {
-	             "id": 14,
-	             "name": "Team 14",
-	             "rank": 14,
-	         }, {
-	             "id": 15,
-	             "name": "Team 15",
-	             "rank": 15,
-	         }, {
-	             "id": 16,
-	             "name": "Team 16",
-	             "rank": 16,
-	         }
-	     ]
-	 };
+<script>
+    //http://whileonefork.blogspot.ca/2010/10/jquery-json-to-draw-elimination-single.html
+
+
+    var teamInfo = {
+        "team": []
+    };
+    var matchInfo = {
+        "rounds": []
+
+    };
 
 
 
- var matchInfo = {
-     "rounds": [{
-         "name": "Round1",
 
-         "matches": [{
-             "id": 1,
-             "p1": teamInfo.team[0].name,           
-             "p2": teamInfo.team[15].name,             
-         }, {
-             "id": 2,
-             "p1": teamInfo.team[1].name,         
-             "p2": teamInfo.team[14].name,
-         }, {
-             "id": 3,
-             "p1": teamInfo.team[2].name,              
-             "p2": teamInfo.team[13].name,
-         }, {
-             "id": 4,
-             "p1": teamInfo.team[3].name,       
-             "p2": teamInfo.team[12].name,
-         }, {
-             "id": 5,
-             "p1": teamInfo.team[4].name,           
-             "p2": teamInfo.team[11].name,
-         }, {
-             "id": 6,
-             "p1": teamInfo.team[5].name,             
-             "p2": teamInfo.team[10].name,
-         }, {
-             "id": 7,
-             "p1": teamInfo.team[6].name,               
-             "p2": teamInfo.team[9].name,
-         }, {
-             "id": 8,
-             "p1": teamInfo.team[7].name,              
-             "p2": teamInfo.team[8].name,
-         }]
-     }, {
-         "name": "Round2",
-         "matches": [{
-             "id": 9,
-             "p1": null,
-             "p2": null
-         }, {
-             "id": 10,
-             "p1": null,
-             "p2": null
-         }, {
-             "id": 11,
-             "p1": null,
-             "p2": null
-         }, {
-             "id": 12,
-             "p1": null,
-             "p2": null
-         }]
-     }, {
-         "name": "Round3",
-         "matches": [{
-             "id": 13,
-             "p1": null,
-             "p2": null
-         }, {
-             "id": 14,
-             "p1": null,
-             "p2": null
-         }, ]
-     }, {
-         "name": "Round4",
-         "matches": [{
-             "id": 15,
-             "p1": null,
-             "p2": null
-         }, ]
-     }]
- };
-    $(document).ready(function($) {         
-    	$( "#header" ).load( "../HeaderAndFooter/header.html" );  	
-    	
-    	
-    	
-    	
- 	  	  var base = $('#writeHere');  
-          var matchDivsByRound = [];  
-          var num = parseInt($('#num').find('option:selected').text().trim());
+    $(document).ready(function($) {
+        $("#genBracket").hide(); //Hide the generate button until number of teams is selected
+        loadPage();
+        fillNumTeams(); //Generate a dropdown with numbers to select amount of teams
+        
+        
          
-          for (var roundIndex=0; roundIndex<matchInfo.rounds.length; roundIndex++) {          	  
-            var round = matchInfo.rounds[roundIndex];           
-            var bracket = checkedAppend('<div class="bracket"></div>', base);  
-            var matchDivs = [];  
-            matchDivsByRound.push(matchDivs);  
-              
-            //setup the match boxes round by round  
-            
-            for (var i=0; i<round.matches.length; i++) {                       
-              var vOffset = checkedAppend('<div></div>', bracket);  
-              
-              
-              var match = round.matches[i];        
-              var matchHtml = '<div class="match" id="match' + match.id + '">'  
-                + '<div class="p1" id='+ match.id +'>' + fmtName(match.p1) + '</div>'  
-                + '<div class="spacer"></div>'  
-                + '<div class="p2" id='+ match.id +'>' + fmtName(match.p2) + '</div>';  
-              matchDiv = checkedAppend(matchHtml, bracket);  
-              matchDivs.push(matchDiv);  
-            
-                
-              if (roundIndex > 0) {  
-                //row 2+; line up with previous row  
-                var alignTo = matchDivsByRound[roundIndex-1][i*2];  
-                //offset to line up tops  
-                var desiredOffset = alignTo.position().top - matchDiv.position().top;  
-                  
-                //offset by half the previous match-height  
-                desiredOffset += alignTo.height() / 2;  
-                vOffset.height(desiredOffset);              
-              } else {  
-                checkedAppend('<div class="small-spacer"></div>', bracket);  
-              }  
-                
-              if (roundIndex > 0) {  
-                //tweak our size so we stretch to the middle of the appropriate element  
-                var stretchTo = matchDivsByRound[roundIndex-1][i*2+1];  
-                var newH = stretchTo.position().top + stretchTo.height()/2 - matchDiv.position().top;              
-                var deltaH = newH - matchDiv.height();  
-                matchDiv.height(newH);  
-                var spacer = matchDiv.find('.spacer');  
-                spacer.height(spacer.height() + deltaH);  
-              }            
-            }                  
-          }  
-          //setup the final winners box; just a space for a name whose bottom is centrally aligned with the last match  
-          bracket = checkedAppend('<div class="bracket"></div>', base);  
-          var vOffset = checkedAppend('<div></div>', bracket);  
-          var alignTo = matchDivsByRound[matchInfo.rounds.length - 1][0]; //only 1 match in the last round  
-          var html = '<div class="winner"></div>';  
-          var winnerDiv = checkedAppend(html, bracket);        
-          vOffset.height(alignTo.position().top - winnerDiv.position().top + alignTo.height() / 2 - winnerDiv.height());  
-          
-	
+        
+       
+        
+        
+        /*********************************************/
+        /* 		Click event to generate bracket 	 */
+        /*********************************************/
+        $('#genBracket').click(function() {
+            $('#bracketContainer').empty();
+            $("#teamForm").hide();
+            $("#genBracket").hide();
+            createTeamList();
+            renderBracket();
+            $(".match").on('click',function(){
+            	  alert("hey!");
+            	});
 
-          $(".p1, .p2").click(function(){
-           		//edit info
-         	  //matchInfo.rounds[1].matches[0].p1 = "Hi";  		
-           		
-       		});  	
-            
-   	
+        });
+        
+       
      
-    });  
-      
-    function fmtName(name) {  
-      return null != name ? name : '';  
-    }  
-      
-    function checkedAppend(rawHtml, appendTo) {  
-      var html = $(rawHtml);  
-      if (0 == html.length) {  
-        throw "Built ourselves bad html : " + rawHtml;  
-      }  
-      html.appendTo(appendTo);        
-      return html;  
-    }  
-  </script>  
- 
- 
- 
+
+        /*********************************************/
+        /* 		Create text boxes for team names	 */
+        /*********************************************/
+        $("#numTeams").change(function() {
+            $('#numTeamsForm').hide();
+            $("#genBracket").show();
+            num = $(this).val();
+            for (i = 1; i <= num; i++) {
+                var newTextBoxDiv = $(document.createElement('div')).attr("id", 'team' + i);
+                newTextBoxDiv.after().html('<label>Team ' + i + ' : </label>' + '<input type="text" name="textbox' + i + '" id="textbox' + i + '" value="" >');
+                newTextBoxDiv.appendTo("#teamForm");
+            }
+        });
+
+       
+    });
+
+
+    function fmtScore(score) {    	
+    	if(score == null){
+        	return '--';
+        }else{       	
+        	return score;
+        }
+    }
+
+    function fmtName(name) {    	       
+        if(name == null){
+        	return '';
+        }else{       	
+        	return name;
+        }
+    }
+
+    function checkedAppend(rawHtml, appendTo) {
+        var html = $(rawHtml);
+        if (0 == html.length) {
+            throw "Built ourselves bad html : " + rawHtml;
+        }
+        html.appendTo(appendTo);
+        return html;
+    }
+
+    function createTeamList() {
+        index = 1;
+        for (j = 1; j <= num; j += 2) {
+            team1 = $("#textbox" + (index)).val();
+            index++;
+            team2 = $("#textbox" + (index)).val();
+            index++;
+            teamInfo.team.push({
+                name: team1,
+            });
+
+            teamInfo.team.push({
+                name: team2,
+            });
+
+
+        }
+
+
+        j = num / 2;
+        index = 0;
+        rounds = 1;
+        switch (j) {
+            case 1: //2 teams
+                matchInfo.rounds.push({
+                    "name": "Round1",
+                    "matches": [{
+                        "id": 1,
+                        "p1": teamInfo.team[index].name,
+                        "p2": teamInfo.team[index + 1].name,
+                        "p1Score": null,
+                        "p2Score": null,
+                    }]
+                });
+                break;
+            case 1.5://3 teams
+                matchInfo.rounds.push({
+                    "name": "Round" + (rounds++),             
+                    
+                    "matches": [{                        
+                        "p1": teamInfo.team[index].name,
+                        "p2": 'bye',
+                    }, {
+                        "id": 1,
+                        "p1": teamInfo.team[index + 1].name,
+                        "p2": teamInfo.team[index + 2].name,
+                        "p1Score": null,
+                        "p2Score": null,
+                        
+                    },]
+                }, {
+                    "name": "Round" + (rounds),
+                    "matches": [{
+                        "id": 2,
+                        "p1": teamInfo.team[0].name,
+                        "p2": null,
+                        "p1Score": null,
+                        "p2Score": null,
+                    }],
+                
+                
+                });
+                break;
+            case 2: //4 teams
+
+                matchInfo.rounds.push({
+                        "name": "Round" + (rounds++),
+                        "matches": [{
+                            "id": 1,
+                            "p1": teamInfo.team[index].name,
+                            "p2": teamInfo.team[index + 1].name,
+                            "p1Score": null,
+                            "p2Score": null,
+                        }, {
+                            "id": 2,
+                            "p1": teamInfo.team[index + 2].name,
+                            "p2": teamInfo.team[index + 3].name,
+                            "p1Score": null,
+                            "p2Score": null,
+                        }]
+                    }, {
+                        "name": "Round" + (rounds),
+                        "matches": [{
+                            "id": 3,
+                            "p1": null,
+                            "p2": null,
+                            "p1Score": null,
+                            "p2Score": null,
+                        }]
+                    }
+
+                );
+
+                break;
+
+
+
+            case 2.5: //5 teams            	
+                matchInfo.rounds.push({
+                        "name": "Round" + (rounds++),
+                        "matches": [{
+                            "id": 1,
+                            "p1": teamInfo.team[index].name,
+                            "p2": "bye"
+                        }, {
+                            "id": 2,
+                            "p1": teamInfo.team[index + 1].name,
+                            "p2": teamInfo.team[index + 2].name,
+                            "p1Score": null,
+                            "p2Score": null,
+                        }, {
+                            "id": 3,
+                            "p1": teamInfo.team[index + 3].name,
+                            "p2": "bye"
+                        }, {
+                            "id": 4,
+                            "p1": teamInfo.team[index + 4].name,
+                            "p2": "bye"
+                        }]
+                    }, {
+                        "name": "Round" + (rounds),
+                        "matches": [{
+                            "id": 5,
+                            "p1": teamInfo.team[0].name,
+                            "p2": null,
+                            "p1Score": null,
+                            "p2Score": null,
+                        }, {
+                            "id": 6,
+                            "p1": teamInfo.team[3].name,
+                            "p2": teamInfo.team[4].name,
+                            "p1Score": null,
+                            "p2Score": null,
+                        }]
+                    }, {
+                        "name": "Round" + (rounds),
+                        "matches": [{
+                            "id": 7,
+                            "p1": null,
+                            "p2": null,
+                            "p1Score": null,
+                            "p2Score": null,
+                        }]
+                    }
+
+                );
+
+                break;
+
+
+
+
+            case 3: //6 teams            	
+                matchInfo.rounds.push({
+                        "name": "Round" + (rounds++),
+                        "matches": [{
+                            "id": 1,
+                            "p1": teamInfo.team[index].name,
+                            "p2": "bye"
+                        }, {
+                            "id": 2,
+                            "p1": teamInfo.team[index + 1].name,
+                            "p2": teamInfo.team[index + 2].name,
+                            "p1Score": null,
+                            "p2Score": null,
+                        }, {
+                            "id": 3,
+                            "p1": teamInfo.team[index + 3].name,
+                            "p2": teamInfo.team[index + 4].name,
+                            "p1Score": null,
+                            "p2Score": null,
+                        }, {
+                            "id": 4,
+                            "p1": teamInfo.team[index + 5].name,
+                            "p2": "bye"
+                        }]
+                    }, {
+                        "name": "Round" + (rounds),
+                        "matches": [{
+                            "id": 5,
+                            "p1": teamInfo.team[0].name,
+                            "p2": null,
+                            "p1Score": null,
+                            "p2Score": null,
+                        }, {
+                            "id": 6,
+                            "p1": null,
+                            "p2": teamInfo.team[5].name,
+                            "p1Score": null,
+                            "p2Score": null,
+                        }]
+                    }, {
+                        "name": "Round" + (rounds),
+                        "matches": [{
+                            "id": 7,
+                            "p1": null,
+                            "p2": null,
+                            "p1Score": null,
+                            "p2Score": null,
+                        }]
+                    }
+
+                );
+
+                break;
+
+
+
+
+            case 3.5: //7 teams            	
+                matchInfo.rounds.push({
+                        "name": "Round" + (rounds++),
+                        "matches": [{
+                            "id": 1,
+                            "p1": teamInfo.team[index].name,
+                            "p2": "bye"
+                        }, {
+                            "id": 2,
+                            "p1": teamInfo.team[index + 1].name,
+                            "p2": teamInfo.team[index + 2].name,
+                            "p1Score": null,
+                            "p2Score": null,
+                        }, {
+                            "id": 3,
+                            "p1": teamInfo.team[index + 3].name,
+                            "p2": teamInfo.team[index + 4].name,
+                            "p1Score": null,
+                            "p2Score": null,
+                        }, {
+                            "id": 4,
+                            "p1": teamInfo.team[index + 5].name,
+                            "p2": teamInfo.team[index + 6].name,
+                            "p1Score": null,
+                            "p2Score": null,
+                        }]
+                    }, {
+                        "name": "Round" + (rounds),
+                        "matches": [{
+                            "id": 5,
+                            "p1": teamInfo.team[0].name,
+                            "p2": null,
+                            "p1Score": null,
+                            "p2Score": null,
+                        }, {
+                            "id": 6,
+                            "p1": null,
+                            "p2": null,
+                            "p1Score": null,
+                            "p2Score": null,
+                        }]
+                    }, {
+                        "name": "Round" + (rounds),
+                        "matches": [{
+                            "id": 7,
+                            "p1": null,
+                            "p2": null,
+                            "p1Score": null,
+                            "p2Score": null,
+                        }]
+                    }
+
+                );
+
+                break;
+
+
+
+
+            case 4: //8 teams            	
+                matchInfo.rounds.push({
+                        "name": "Round" + (rounds++),
+                        "matches": [{
+                            "id": 1,
+                            "p1": teamInfo.team[index].name,
+                            "p2": teamInfo.team[index + 1].name,
+                            "p1Score": null,
+                            "p2Score": null,
+                        }, {
+                            "id": 2,
+                            "p1": teamInfo.team[index + 2].name,
+                            "p2": teamInfo.team[index + 3].name,
+                            "p1Score": null,
+                            "p2Score": null,
+                        }, {
+                            "id": 3,
+                            "p1": teamInfo.team[index + 4].name,
+                            "p2": teamInfo.team[index + 5].name,
+                            "p1Score": null,
+                            "p2Score": null,
+                        }, {
+                            "id": 4,
+                            "p1": teamInfo.team[index + 6].name,
+                            "p2": teamInfo.team[index + 7].name,
+                            "p1Score": null,
+                            "p2Score": null,
+                        }]
+                    }, {
+                        "name": "Round" + (rounds),
+                        "matches": [{
+                            "id": 5,
+                            "p1": null,
+                            "p2": null,
+                            "p1Score": null,
+                            "p2Score": null,
+                        }, {
+                            "id": 6,
+                            "p1": null,
+                            "p2": null,
+                            "p1Score": null,
+                            "p2Score": null,
+                        }]
+                    }, {
+                        "name": "Round" + (rounds),
+                        "matches": [{
+                            "id": 7,
+                            "p1": null,
+                            "p2": null,
+                            "p1Score": null,
+                            "p2Score": null,
+                        }]
+                    }
+
+                );
+
+                break;
+
+
+
+
+            case 4.5: //9 teams            	
+                matchInfo.rounds.push({
+                        "name": "Round" + (rounds++),
+                        "matches": [{
+                            "id": 1,
+                            "p1": teamInfo.team[index].name,
+                            "p2": "bye"
+                        }, {
+                            "id": 2,
+                            "p1": teamInfo.team[index + 1].name,
+                            "p2": teamInfo.team[index + 2].name,
+                            "p1Score": null,
+                            "p2Score": null,
+                        }, {
+                            "id": 3,
+                            "p1": teamInfo.team[index + 3].name,
+                            "p2": "bye"
+                        }, {
+                            "id": 4,
+                            "p1": teamInfo.team[index + 4].name,
+                            "p2": "bye"
+                        }, {
+                            "id": 5,
+                            "p1": teamInfo.team[index + 5].name,
+                            "p2": "bye"
+                        }, {
+                            "id": 6,
+                            "p1": teamInfo.team[index + 6].name,
+                            "p2": "bye"
+                        }, {
+                            "id": 7,
+                            "p1": teamInfo.team[index + 7].name,
+                            "p2": "bye"
+                        }, {
+                            "id": 8,
+                            "p1": teamInfo.team[index + 8].name,
+                            "p2": "bye"
+                        }]
+                    }, {
+                        "name": "Round" + (rounds),
+                        "matches": [{
+                            "id": 9,
+                            "p1": teamInfo.team[0].name,
+                            "p2": null,
+                            "p1Score": null,
+                            "p2Score": null,
+                        }, {
+                            "id": 10,
+                            "p1": teamInfo.team[3].name,
+                            "p2": teamInfo.team[4].name,
+                            "p1Score": null,
+                            "p2Score": null,
+                        }, {
+                            "id": 11,
+                            "p1": teamInfo.team[5].name,
+                            "p2": teamInfo.team[6].name,
+                            "p1Score": null,
+                            "p2Score": null,
+                        }, {
+                            "id": 12,
+                            "p1": teamInfo.team[7].name,
+                            "p2": teamInfo.team[8].name,
+                            "p1Score": null,
+                            "p2Score": null,
+                        }, ]
+                    }, {
+                        "name": "Round" + (rounds),
+                        "matches": [{
+                            "id": 13,
+                            "p1": null,
+                            "p2": null,
+                            "p1Score": null,
+                            "p2Score": null,
+                        }, {
+                            "id": 14,
+                            "p1": null,
+                            "p2": null,
+                            "p1Score": null,
+                            "p2Score": null,
+                        }, ]
+                    }, {
+                        "name": "Round" + (rounds),
+                        "matches": [{
+                            "id": 15,
+                            "p1": null,
+                            "p2": null,
+                            "p1Score": null,
+                            "p2Score": null,
+                        }]
+                    }
+
+                );
+
+                break;
+
+
+
+
+            case 5: //10 teams            	
+                matchInfo.rounds.push({
+                        "name": "Round" + (rounds++),
+                        "matches": [{
+                            "id": 1,
+                            "p1": teamInfo.team[index].name,
+                            "p2": "bye"
+                        }, {
+                            "id": 2,
+                            "p1": teamInfo.team[index + 1].name,
+                            "p2": teamInfo.team[index + 2].name,
+                            "p1Score": null,
+                            "p2Score": null,
+                        }, {
+                            "id": 3,
+                            "p1": teamInfo.team[index + 3].name,
+                            "p2": "bye"
+                        }, {
+                            "id": 4,
+                            "p1": teamInfo.team[index + 4].name,
+                            "p2": "bye"
+                        }, {
+                            "id": 5,
+                            "p1": teamInfo.team[index + 5].name,
+                            "p2": "bye"
+                        }, {
+                            "id": 6,
+                            "p1": teamInfo.team[index + 6].name,
+                            "p2": teamInfo.team[index + 7].name,
+                            "p1Score": null,
+                            "p2Score": null,
+                        }, {
+                            "id": 7,
+                            "p1": teamInfo.team[index + 8].name,
+                            "p2": "bye"
+                        }, {
+                            "id": 8,
+                            "p1": teamInfo.team[index + 9].name,
+                            "p2": "bye"
+                        }]
+                    }, {
+                        "name": "Round" + (rounds),
+                        "matches": [{
+                            "id": 9,
+                            "p1": teamInfo.team[0].name,
+                            "p2": null,
+                            "p1Score": null,
+                            "p2Score": null,
+                        }, {
+                            "id": 10,
+                            "p1": teamInfo.team[3].name,
+                            "p2": teamInfo.team[4].name,
+                            "p1Score": null,
+                            "p2Score": null,
+                        }, {
+                            "id": 11,
+                            "p1": teamInfo.team[5].name,
+                            "p2": null,
+                            "p1Score": null,
+                            "p2Score": null,
+                        }, {
+                            "id": 12,
+                            "p1": teamInfo.team[8].name,
+                            "p2": teamInfo.team[9].name,
+                            "p1Score": null,
+                            "p2Score": null,
+                        }, ]
+                    }, {
+                        "name": "Round" + (rounds),
+                        "matches": [{
+                            "id": 13,
+                            "p1": null,
+                            "p2": null,
+                            "p1Score": null,
+                            "p2Score": null,
+                        }, {
+                            "id": 14,
+                            "p1": null,
+                            "p2": null,
+                            "p1Score": null,
+                            "p2Score": null,
+                        }, ]
+                    }, {
+                        "name": "Round" + (rounds),
+                        "matches": [{
+                            "id": 15,
+                            "p1": null,
+                            "p2": null,
+                            "p1Score": null,
+                            "p2Score": null,
+                        }]
+                    }
+
+                );
+
+                break;
+
+
+
+
+            case 5.5: //11 teams            	
+                matchInfo.rounds.push({
+                        "name": "Round" + (rounds++),
+                        "matches": [{
+                            "id": 1,
+                            "p1": teamInfo.team[index].name,
+                            "p2": "bye"
+                        }, {
+                            "id": 2,
+                            "p1": teamInfo.team[index + 1].name,
+                            "p2": teamInfo.team[index + 2].name,
+                            "p1Score": null,
+                            "p2Score": null,
+                        }, {
+                            "id": 3,
+                            "p1": teamInfo.team[index + 3].name,
+                            "p2": "bye"
+                        }, {
+                            "id": 4,
+                            "p1": teamInfo.team[index + 4].name,
+                            "p2": "bye"
+                        }, {
+                            "id": 5,
+                            "p1": teamInfo.team[index + 5].name,
+                            "p2": "bye"
+                        }, {
+                            "id": 6,
+                            "p1": teamInfo.team[index + 6].name,
+                            "p2": teamInfo.team[index + 7].name,
+                            "p1Score": null,
+                            "p2Score": null,
+                        }, {
+                            "id": 7,
+                            "p1": teamInfo.team[index + 8].name,
+                            "p2": "bye"
+                        }, {
+                            "id": 8,
+                            "p1": teamInfo.team[index + 9].name,
+                            "p2": teamInfo.team[index + 10].name,
+                            "p1Score": null,
+                            "p2Score": null,
+                        }]
+                    }, {
+                        "name": "Round" + (rounds),
+                        "matches": [{
+                            "id": 9,
+                            "p1": teamInfo.team[0].name,
+                            "p2": null,
+                            "p1Score": null,
+                            "p2Score": null,
+                        }, {
+                            "id": 10,
+                            "p1": teamInfo.team[3].name,
+                            "p2": teamInfo.team[4].name,
+                            "p1Score": null,
+                            "p2Score": null,
+                        }, {
+                            "id": 11,
+                            "p1": teamInfo.team[5].name,
+                            "p2": null,
+                            "p1Score": null,
+                            "p2Score": null,
+                        }, {
+                            "id": 12,
+                            "p1": teamInfo.team[8].name,
+                            "p2": null,
+                            "p1Score": null,
+                            "p2Score": null,
+                        }, ]
+                    }, {
+                        "name": "Round" + (rounds),
+                        "matches": [{
+                            "id": 13,
+                            "p1": null,
+                            "p2": null,
+                            "p1Score": null,
+                            "p2Score": null,
+                        }, {
+                            "id": 14,
+                            "p1": null,
+                            "p2": null,
+                            "p1Score": null,
+                            "p2Score": null,
+                        }, ]
+                    }, {
+                        "name": "Round" + (rounds),
+                        "matches": [{
+                            "id": 15,
+                            "p1": null,
+                            "p2": null,
+                            "p1Score": null,
+                            "p2Score": null,
+                        }]
+                    }
+
+                );
+
+                break;
+
+
+
+
+            case 6: //12 teams            	
+                matchInfo.rounds.push({
+                        "name": "Round" + (rounds++),
+                        "matches": [{
+                            "id": 1,
+                            "p1": teamInfo.team[index].name,
+                            "p2": "bye"
+                        }, {
+                            "id": 2,
+                            "p1": teamInfo.team[index + 1].name,
+                            "p2": teamInfo.team[index + 2].name,
+                            "p1Score": null,
+                            "p2Score": null,
+                        }, {
+                            "id": 3,
+                            "p1": teamInfo.team[index + 3].name,
+                            "p2": "bye"
+                        }, {
+                            "id": 4,
+                            "p1": teamInfo.team[index + 4].name,
+                            "p2": teamInfo.team[index + 5].name,
+                            "p1Score": null,
+                            "p2Score": null,
+                        }, {
+                            "id": 5,
+                            "p1": teamInfo.team[index + 6].name,
+                            "p2": "bye"
+                        }, {
+                            "id": 6,
+                            "p1": teamInfo.team[index + 7].name,
+                            "p2": teamInfo.team[index + 8].name,
+                            "p1Score": null,
+                            "p2Score": null,
+                        }, {
+                            "id": 7,
+                            "p1": teamInfo.team[index + 9].name,
+                            "p2": "bye"
+                        }, {
+                            "id": 8,
+                            "p1": teamInfo.team[index + 10].name,
+                            "p2": teamInfo.team[index + 11].name,
+                            "p1Score": null,
+                            "p2Score": null,
+                        }]
+                    }, {
+                        "name": "Round" + (rounds),
+                        "matches": [{
+                            "id": 9,
+                            "p1": teamInfo.team[0].name,
+                            "p2": null,
+                            "p1Score": null,
+                            "p2Score": null,
+                        }, {
+                            "id": 10,
+                            "p1": teamInfo.team[3].name,
+                            "p2": null,
+                            "p1Score": null,
+                            "p2Score": null,
+                        }, {
+                            "id": 11,
+                            "p1": teamInfo.team[6].name,
+                            "p2": null,
+                            "p1Score": null,
+                            "p2Score": null,
+                        }, {
+                            "id": 12,
+                            "p1": teamInfo.team[9].name,
+                            "p2": null,
+                            "p1Score": null,
+                            "p2Score": null,
+                        }, ]
+                    }, {
+                        "name": "Round" + (rounds),
+                        "matches": [{
+                            "id": 13,
+                            "p1": null,
+                            "p2": null,
+                            "p1Score": null,
+                            "p2Score": null,
+                        }, {
+                            "id": 14,
+                            "p1": null,
+                            "p2": null,
+                            "p1Score": null,
+                            "p2Score": null,
+                        }, ]
+                    }, {
+                        "name": "Round" + (rounds),
+                        "matches": [{
+                            "id": 15,
+                            "p1": null,
+                            "p2": null,
+                            "p1Score": null,
+                            "p2Score": null,
+                        }]
+                    }
+
+                );
+
+                break;
+
+
+
+
+            case 6.5: //13 teams            	
+                matchInfo.rounds.push({
+                        "name": "Round" + (rounds++),
+                        "matches": [{
+                            "id": 1,
+                            "p1": teamInfo.team[index].name,
+                            "p2": "bye"
+                        }, {
+                            "id": 2,
+                            "p1": teamInfo.team[index + 1].name,
+                            "p2": teamInfo.team[index + 2].name,
+                            "p1Score": null,
+                            "p2Score": null,
+                        }, {
+                            "id": 3,
+                            "p1": teamInfo.team[index + 3].name,
+                            "p2": teamInfo.team[index + 4].name,
+                            "p1Score": null,
+                            "p2Score": null,
+                        }, {
+                            "id": 4,
+                            "p1": teamInfo.team[index + 5].name,
+                            "p2": teamInfo.team[index + 6].name,
+                            "p1Score": null,
+                            "p2Score": null,
+                        }, {
+                            "id": 5,
+                            "p1": teamInfo.team[index + 7].name,
+                            "p2": "bye"
+                        }, {
+                            "id": 6,
+                            "p1": teamInfo.team[index + 8].name,
+                            "p2": teamInfo.team[index + 9].name,
+                            "p1Score": null,
+                            "p2Score": null,
+                        }, {
+                            "id": 7,
+                            "p1": teamInfo.team[index + 10].name,
+                            "p2": "bye"
+                        }, {
+                            "id": 8,
+                            "p1": teamInfo.team[index + 11].name,
+                            "p2": teamInfo.team[index + 12].name,
+                            "p1Score": null,
+                            "p2Score": null,
+                        }]
+                    }, {
+                        "name": "Round" + (rounds),
+                        "matches": [{
+                            "id": 9,
+                            "p1": teamInfo.team[0].name,
+                            "p2": null,
+                            "p1Score": null,
+                            "p2Score": null,
+                        }, {
+                            "id": 10,
+                            "p1": null,
+                            "p2": null,
+                            "p1Score": null,
+                            "p2Score": null,
+                        }, {
+                            "id": 11,
+                            "p1": teamInfo.team[7].name,
+                            "p2": null,
+                            "p1Score": null,
+                            "p2Score": null,
+                        }, {
+                            "id": 12,
+                            "p1": teamInfo.team[10].name,
+                            "p2": null,
+                            "p1Score": null,
+                            "p2Score": null,
+                        }, ]
+                    }, {
+                        "name": "Round" + (rounds),
+                        "matches": [{
+                            "id": 13,
+                            "p1": null,
+                            "p2": null,
+                            "p1Score": null,
+                            "p2Score": null,
+                        }, {
+                            "id": 14,
+                            "p1": null,
+                            "p2": null,
+                            "p1Score": null,
+                            "p2Score": null,
+                        }, ]
+                    }, {
+                        "name": "Round" + (rounds),
+                        "matches": [{
+                            "id": 15,
+                            "p1": null,
+                            "p2": null,
+                            "p1Score": null,
+                            "p2Score": null,
+                        }]
+                    }
+
+                );
+
+                break;
+
+
+            case 7: //14 teams            	
+                matchInfo.rounds.push({
+                        "name": "Round" + (rounds++),
+                        "matches": [{
+                            "id": 1,
+                            "p1": teamInfo.team[index].name,
+                            "p2": "bye"
+                        }, {
+                            "id": 2,
+                            "p1": teamInfo.team[index + 1].name,
+                            "p2": teamInfo.team[index + 2].name,
+                            "p1Score": null,
+                            "p2Score": null,
+                        }, {
+                            "id": 3,
+                            "p1": teamInfo.team[index + 3].name,
+                            "p2": teamInfo.team[index + 4].name,
+                            "p1Score": null,
+                            "p2Score": null,
+                        }, {
+                            "id": 4,
+                            "p1": teamInfo.team[index + 5].name,
+                            "p2": teamInfo.team[index + 6].name,
+                            "p1Score": null,
+                            "p2Score": null,
+                        }, {
+                            "id": 5,
+                            "p1": teamInfo.team[index + 7].name,
+                            "p2": "bye"
+                        }, {
+                            "id": 6,
+                            "p1": teamInfo.team[index + 8].name,
+                            "p2": teamInfo.team[index + 9].name,
+                            "p1Score": null,
+                            "p2Score": null,
+                        }, {
+                            "id": 7,
+                            "p1": teamInfo.team[index + 10].name,
+                            "p2": teamInfo.team[index + 11].name,
+                            "p1Score": null,
+                            "p2Score": null,
+                        }, {
+                            "id": 8,
+                            "p1": teamInfo.team[index + 12].name,
+                            "p2": teamInfo.team[index + 13].name,
+                            "p1Score": null,
+                            "p2Score": null,
+                        }]
+                    }, {
+                        "name": "Round" + (rounds),
+                        "matches": [{
+                            "id": 9,
+                            "p1": teamInfo.team[0].name,
+                            "p2": null,
+                            "p1Score": null,
+                            "p2Score": null,
+                        }, {
+                            "id": 10,
+                            "p1": null,
+                            "p2": null,
+                            "p1Score": null,
+                            "p2Score": null,
+                        }, {
+                            "id": 11,
+                            "p1": teamInfo.team[7].name,
+                            "p2": null,
+                            "p1Score": null,
+                            "p2Score": null,
+                        }, {
+                            "id": 12,
+                            "p1": null,
+                            "p2": null,
+                            "p1Score": null,
+                            "p2Score": null,
+                        }, ]
+                    }, {
+                        "name": "Round" + (rounds),
+                        "matches": [{
+                            "id": 13,
+                            "p1": null,
+                            "p2": null,
+                            "p1Score": null,
+                            "p2Score": null,
+                        }, {
+                            "id": 14,
+                            "p1": null,
+                            "p2": null,
+                            "p1Score": null,
+                            "p2Score": null,
+                        }, ]
+                    }, {
+                        "name": "Round" + (rounds),
+                        "matches": [{
+                            "id": 15,
+                            "p1": null,
+                            "p2": null,
+                            "p1Score": null,
+                            "p2Score": null,
+                        }]
+                    }
+
+                );
+
+                break;
+
+
+
+            case 7.5: //15 teams            	
+                matchInfo.rounds.push({
+                        "name": "Round" + (rounds++),
+                        "matches": [{
+                            "id": 1,
+                            "p1": teamInfo.team[index].name,
+                            "p2": teamInfo.team[index + 1].name,
+                            "p1Score": null,
+                            "p2Score": null,
+                        }, {
+                            "id": 2,
+                            "p1": teamInfo.team[index + 2].name,
+                            "p2": teamInfo.team[index + 3].name,
+                            "p1Score": null,
+                            "p2Score": null,
+                        }, {
+                            "id": 3,
+                            "p1": teamInfo.team[index + 4].name,
+                            "p2": teamInfo.team[index + 5].name,
+                            "p1Score": null,
+                            "p2Score": null,
+                        }, {
+                            "id": 4,
+                            "p1": teamInfo.team[index + 6].name,
+                            "p2": teamInfo.team[index + 7].name,
+                            "p1Score": null,
+                            "p2Score": null,
+                        }, {
+                            "id": 5,
+                            "p1": teamInfo.team[index + 8].name,
+                            "p2": teamInfo.team[index + 9].name,
+                            "p1Score": null,
+                            "p2Score": null,
+                        }, {
+                            "id": 6,
+                            "p1": teamInfo.team[index + 10].name,
+                            "p2": teamInfo.team[index + 11].name,
+                            "p1Score": null,
+                            "p2Score": null,
+                        }, {
+                            "id": 7,
+                            "p1": teamInfo.team[index + 12].name,
+                            "p2": teamInfo.team[index + 13].name,
+                            "p1Score": null,
+                            "p2Score": null,
+                        }, {
+                            "id": 8,
+                            "p1": teamInfo.team[index + 14].name,
+                            "p2": "bye"
+                        }]
+                    }, {
+                        "name": "Round" + (rounds),
+                        "matches": [{
+                            "id": 9,
+                            "p1": null,
+                            "p2": null,
+                            "p1Score": null,
+                            "p2Score": null,
+                        }, {
+                            "id": 10,
+                            "p1": null,
+                            "p2": null,
+                            "p1Score": null,
+                            "p2Score": null,
+                        }, {
+                            "id": 11,
+                            "p1": null,
+                            "p2": null,
+                            "p1Score": null,
+                            "p2Score": null,
+                        }, {
+                            "id": 12,
+                            "p1": null,
+                            "p2": teamInfo.team[14].name,
+                            "p1Score": null,
+                            "p2Score": null,
+                        }, ]
+                    }, {
+                        "name": "Round" + (rounds),
+                        "matches": [{
+                            "id": 13,
+                            "p1": null,
+                            "p2": null,
+                            "p1Score": null,
+                            "p2Score": null,
+                        }, {
+                            "id": 14,
+                            "p1": null,
+                            "p2": null,
+                            "p1Score": null,
+                            "p2Score": null,
+                        }, ]
+                    }, {
+                        "name": "Round" + (rounds),
+                        "matches": [{
+                            "id": 15,
+                            "p1": null,
+                            "p2": null,
+                            "p1Score": null,
+                            "p2Score": null,
+                        }]
+                    }
+
+                );
+
+                break;
+
+
+            case 8://16 teams
+                matchInfo.rounds.push({
+                        "name": "Round" + (rounds++),
+                        "matches": [{
+                            "id": 1,
+                            "p1": teamInfo.team[index].name,
+                            "p2": teamInfo.team[index + 1].name,
+                            "p1Score": null,
+                            "p2Score": null,
+                        }, {
+                            "id": 2,
+                            "p1": teamInfo.team[index + 2].name,
+                            "p2": teamInfo.team[index + 3].name,
+                            "p1Score": null,
+                            "p2Score": null,
+                        }, {
+                            "id": 3,
+                            "p1": teamInfo.team[index + 4].name,
+                            "p2": teamInfo.team[index + 5].name,
+                            "p1Score": null,
+                            "p2Score": null,
+                        }, {
+                            "id": 4,
+                            "p1": teamInfo.team[index + 6].name,
+                            "p2": teamInfo.team[index + 7].name,
+                            "p1Score": null,
+                            "p2Score": null,
+                        }, {
+                            "id": 5,
+                            "p1": teamInfo.team[index + 8].name,
+                            "p2": teamInfo.team[index + 9].name,
+                            "p1Score": null,
+                            "p2Score": null,
+                        }, {
+                            "id": 6,
+                            "p1": teamInfo.team[index + 10].name,
+                            "p2": teamInfo.team[index + 11].name,
+                            "p1Score": null,
+                            "p2Score": null,
+                        }, {
+                            "id": 7,
+                            "p1": teamInfo.team[index + 12].name,
+                            "p2": teamInfo.team[index + 13].name,
+                            "p1Score": null,
+                            "p2Score": null,
+                        }, {
+                            "id": 8,
+                            "p1": teamInfo.team[index + 14].name,
+                            "p2": teamInfo.team[index + 15].name,
+                            "p1Score": null,
+                            "p2Score": null,
+                        }]
+                    }, {
+                        "name": "Round" + (rounds),
+                        "matches": [{
+                            "id": 9,
+                            "p1": null,
+                            "p2": null,
+                            "p1Score": null,
+                            "p2Score": null,
+                        }, {
+                            "id": 10,
+                            "p1": null,
+                            "p2": null,
+                            "p1Score": null,
+                            "p2Score": null,
+                        }, {
+                            "id": 11,
+                            "p1": null,
+                            "p2": null,
+                            "p1Score": null,
+                            "p2Score": null,
+                        }, {
+                            "id": 12,
+                            "p1": null,
+                            "p2": null,
+                            "p1Score": null,
+                            "p2Score": null,
+                        }, ]
+                    }, {
+                        "name": "Round" + (rounds),
+                        "matches": [{
+                            "id": 13,
+                            "p1": null,
+                            "p2": null,
+                            "p1Score": null,
+                            "p2Score": null,
+                        }, {
+                            "id": 14,
+                            "p1": null,
+                            "p2": null,
+                            "p1Score": null,
+                            "p2Score": null,
+                        }, ]
+                    }, {
+                        "name": "Round" + (rounds),
+                        "matches": [{
+                            "id": 15,
+                            "p1": null,
+                            "p2": null,
+                            "p1Score": null,
+                            "p2Score": null,
+                        }]
+                    }
+
+                );
+
+                break;
+
+
+
+
+        }
+
+    }
+
+
+
+    /******************************************************************************/
+    /* 			Creates the bracket structure and displays it			        */
+    /******************************************************************************/
+
+    function renderBracket() {
+
+        var base = $('#bracketContainer');
+        var matchDivsByRound = [];
+
+        for (var roundIndex = 0; roundIndex < matchInfo.rounds.length; roundIndex++) {
+            var round = matchInfo.rounds[roundIndex];
+            var bracket = checkedAppend('<div class="bracket"></div>', base);
+            var matchDivs = [];
+            matchDivsByRound.push(matchDivs);
+            
+            //setup the match boxes round by round  
+            for (var i = 0; i < round.matches.length; i++) {
+                var vOffset = checkedAppend('<div></div>', bracket);
+
+                var match = round.matches[i];      
+             	
+                  if(fmtName(match.p1) == "bye" || fmtName(match.p2) == "bye"  ){
+                	  var matchHtml = '<div  id="match' + match.id + '">' + '<div ></div>' + '<div class="spacer"></div>' ;                	  
+                	 
+                  }else{                    	  
+                	  var matchHtml = '<div class="match" id="match' + match.id + '">' + '<div class="p1">' + fmtName(match.p1) + '<div class="score">' + fmtScore(match.p1Score) + '</div></div>' + '<div class="spacer"></div>' + '<div class="p2">' + fmtName(match.p2) + '<div class="score">' + fmtScore(match.p2Score) + '</div></div>';                	  
+                  }           
+                matchDiv = checkedAppend(matchHtml, bracket);
+                matchDivs.push(matchDiv);
+
+                if (roundIndex > 0) {
+                    //row 2+; line up with previous row  
+                    var alignTo = matchDivsByRound[roundIndex - 1][i * 2];
+                    //offset to line up tops  
+                    var desiredOffset = alignTo.position().top - matchDiv.position().top;
+
+                    //offset by half the previous match-height  
+                    desiredOffset += alignTo.height() / 2;
+                    vOffset.height(desiredOffset);
+                } else {
+                    checkedAppend('<div class="small-spacer"></div>', bracket);
+                }
+
+                if (roundIndex > 0) {
+                    //tweak our size so we stretch to the middle of the appropriate element  
+                    var stretchTo = matchDivsByRound[roundIndex - 1][i * 2 + 1];
+                    var newH = stretchTo.position().top + stretchTo.height() / 2 - matchDiv.position().top;
+                    var deltaH = newH - matchDiv.height();
+                    matchDiv.height(newH);
+                    var spacer = matchDiv.find('.spacer');
+                    spacer.height(spacer.height() + deltaH);
+                }
+            }
+        }
+        //setup the final winners box; just a space for a name whose bottom is centrally aligned with the last match  
+        bracket = checkedAppend('<div class="bracket"></div>', base);
+        var vOffset = checkedAppend('<div></div>', bracket);
+        var alignTo = matchDivsByRound[matchInfo.rounds.length - 1][0]; //only 1 match in the last round  
+        var html = '<div class="winner"></div>';
+        var winnerDiv = checkedAppend(html, bracket);
+        vOffset.height(alignTo.position().top - winnerDiv.position().top + alignTo.height() / 2 - winnerDiv.height());
+
+    }
+
+
+
+
+    /******************************************************************************/
+    /* 		Generate dropdown with numbers 1-16 for amount of team selection	  */
+    /******************************************************************************/
+    function fillNumTeams() {
+        var $select = $("#numTeams");
+        for (i = 1; i < 17; i++) {
+            $select.append($('<option></option>').val(i).html(i))
+        }
+    }
+
+    /******************************************************************************/
+    /* 						Generate the array of team names					  */
+    /******************************************************************************/
+    function createTeams() {
+        for (x = 1; x <= num; x++) {
+            teams[x - 1] = $("#textbox" + x).val();
+        }
+    }   
+</script>
 </head>
+
 <body>
-<%@include file="/includes/header.jsp" %>
-    
-<div id="writeHere" class="tournament"></div>  
+   <%@include file="/includes/header.jsp" %>
+   <form id='numTeamsForm'>
+      How many Teams?
+      <select id="numTeams">
+      </select>
+   </form>
+   <br/><br/>
+   
+   <div class='teams' id='teamForm'></div>
+   <div><a href="#" class="btn btn-primary" id="genBracket">GENERATE BRACKET</a></div>
+   <div id="bracketContainer" class="tournament"></div> 
 </body>
 </html>
+
