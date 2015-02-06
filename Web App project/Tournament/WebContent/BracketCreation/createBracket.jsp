@@ -7,7 +7,7 @@
 <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
 <title>Create Bracket</title>
 <%@include file="/includes/head.jsp" %>
-<link rel="stylesheet" type="text/css" href="/css/newBracket.css" />
+<link rel="stylesheet" type="text/css" href="/css/bracket.css" />
 <link rel="stylesheet" type="text/css" href="/css/simple-sidebar.css" />
 
 <script>
@@ -37,20 +37,44 @@
             $("#genBracket").hide();           
             createTeamList();
             renderBracket();
-            $(".match").on('mouseover',function(){            	  
+            $(".match").on('mouseover',function(){  
             	 index = (this.id);             	 
             	 round = $(this).parent().attr("id");   
-            	 $("#matchNumber").html("Match #"+matchInfo.rounds[round].matches[index].matchNumber+"<br/>");    
+            	 matchNum = matchInfo.rounds[round].matches[index].matchNumber;
+            	 
+            	 	//$( "div.p1:contains('Team1')" ).css( "background-color", "pink");
+            	 	//$( "div.p1:contains('Team1')" ).css( "background-color", "pink");
+            	 
+            	 
+            	 $(".p1[matchNum="+matchNum+"]").css("color", "white");
+            	 $(".p1[matchNum="+matchNum+"]").css("background-color", "black");
+            	 $(".p2[matchNum="+matchNum+"]").css("color", "white");
+            	 $(".p2[matchNum="+matchNum+"]").css("background-color", "black");
+            	 $("#matchNumber").html("Match #"+matchNum+"<br/>");    
             	 $("#matchVersus").html("<div id='teamName1'>"+matchInfo.rounds[round].matches[index].p1 + "</div> VS <div id='teamName2'> " + matchInfo.rounds[round].matches[index].p2+"</div>"); 
             	 $("#matchScore").html(fmtScore(matchInfo.rounds[round].matches[index].p1Score) + " - " + fmtScore(matchInfo.rounds[round].matches[index].p2Score)+"<br/>");
-            	});
+            });
             
-            $(".match").on('mouseout',function(){             
+          
+            
+            
+            
+            $(".match").on('mouseout',function(){ 
+           	 $(".p1[matchNum="+matchNum+"]").css("color", "black");
+           	 $(".p1[matchNum="+matchNum+"]").css("background-color", "#E0E0E0");
+           	 $(".p2[matchNum="+matchNum+"]").css("color", "black");
+           	 $(".p2[matchNum="+matchNum+"]").css("background-color", "#E0E0E0");
            	 $("#matchNumber").empty();    
            	 $("#matchVersus").empty();
            	 $("#matchScore").empty();
 
            	});
+            
+            
+         
+            
+            
+            
             
     
         });
@@ -1360,8 +1384,9 @@
 
         var base = $('#bracketContainer');
         var matchDivsByRound = [];
-
+        matchNum = 1;
         for (var roundIndex = 0; roundIndex < matchInfo.rounds.length; roundIndex++) {
+        	
             var round = matchInfo.rounds[roundIndex];            
             var bracket = checkedAppend('<div class="bracket" id=' + roundIndex + '></div>', base);
             var matchDivs = [];
@@ -1377,8 +1402,10 @@
                 	  var matchHtml = '<div class="spacer"></div>' ;                	  
                 	 
                   }else{                    	  
-                	  var matchHtml = '<div class="match" id=' + match.matchIndex + '>' + '<div class="p1">' + fmtName(match.p1) + '<div class="score">' + fmtScore(match.p1Score) + '</div></div>' + '<div class="spacer"></div>' + '<div class="p2">' + fmtName(match.p2) + '<div class="score">' + fmtScore(match.p2Score) + '</div></div>';                	  
+                	  var matchHtml = '<div class="match"  id=' + match.matchIndex + '>' + '<div class="p1" matchNum=' + matchNum + '>' + fmtName(match.p1) + '<div class="score">' + fmtScore(match.p1Score) + '</div></div>' + '<div class="spacer"></div>' + '<div class="p2" matchNum=' + matchNum + '>' + fmtName(match.p2) + '<div class="score">' + fmtScore(match.p2Score) + '</div></div>';                	  
+                	  matchNum++;
                   }           
+                  
                 matchDiv = checkedAppend(matchHtml, bracket);
                 matchDivs.push(matchDiv);
 
@@ -1458,7 +1485,7 @@
       </div>
       <!-- /#sidebar-wrapper -->
       <!-- Page Content -->
-      <div id="page-content-wrapper">
+      <div id="page-content-wrapper" >
          <div class="container-fluid">
             <div class="row">
                <div class="col-lg-12">
@@ -1470,7 +1497,7 @@
                   <br/><br/>
                   <div class='teams' id='teamForm'></div>
                   <div><a href="#" class="btn btn-primary" id="genBracket">GENERATE BRACKET</a></div>
-                  <div id="bracketContainer" class="tournament"></div>
+                  <div id="bracketContainer"  class="tournament"></div>
                </div>
             </div>
          </div>
