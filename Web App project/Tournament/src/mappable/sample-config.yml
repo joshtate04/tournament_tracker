@@ -1,0 +1,7 @@
+database:
+  url: jdbc:mysql://localhost
+  dbName: tournament-tracker
+  driver: com.mysql.jdbc.Driver
+  username: root
+  password: root
+  port: 3306

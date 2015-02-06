@@ -4048,8 +4048,6 @@ select[multiple].input-group-sm > .input-group-btn > .btn {
 }
 .navbar {
   position: relative;
-  min-height: 64px;
-  margin-bottom: 23px;
   border: 1px solid transparent;
 }
 @media (min-width: 768px) {
