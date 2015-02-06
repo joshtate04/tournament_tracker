@@ -54,6 +54,7 @@ public class User extends Mappable {
 	public static User find_by_authentication(String username, String password){
 		System.out.println("Attempting to log in...");
 		
+		//Move to the Login Servlet
 		Connection conn = (Connection) new DatabaseConnection().connect();
 		User user = null;
 		
