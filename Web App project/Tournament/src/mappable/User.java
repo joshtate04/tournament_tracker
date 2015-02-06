@@ -54,7 +54,7 @@ public class User extends Mappable {
 	public static User find_by_authentication(String username, String password){
 		System.out.println("Attempting to log in...");
 		
-		Connection conn = (Connection) new DatabaseConnection("root","").connect();
+		Connection conn = (Connection) new DatabaseConnection().connect();
 		User user = null;
 		
 		if (conn == null)
@@ -100,7 +100,7 @@ public class User extends Mappable {
 
 	public boolean validate() {
 		boolean status = true;
-		Connection conn = new DatabaseConnection("root","root").connect();
+		Connection conn = new DatabaseConnection().connect();
 		PreparedStatement pst = null;
 		ResultSet rs = null;
 		
