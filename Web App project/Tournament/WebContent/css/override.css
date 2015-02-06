@@ -130,7 +130,8 @@ fieldset[disabled] .navbar-default .btn-link:focus {
 }
 
 .panel-primary {
-  border-color: #27C400;
+	margin-top:30px;
+  	border-color: #27C400;
 }
 .panel-primary > .panel-heading {
   color: #ffffff;
