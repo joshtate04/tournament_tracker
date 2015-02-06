@@ -23,14 +23,8 @@
     };
   
 
-    
-    
-
-
-
     $(document).ready(function($) {
         $("#genBracket").hide(); //Hide the generate button until number of teams is selected
-        $("#sidebar-wrapper").hide();
         loadPage();
         fillNumTeams(); //Generate a dropdown with numbers to select amount of teams        
         
@@ -43,17 +37,22 @@
             $("#genBracket").hide();           
             createTeamList();
             renderBracket();
-            $(".match").on('click',function(){            	  
+            $(".match").on('mouseover',function(){            	  
             	 index = (this.id);             	 
             	 round = $(this).parent().attr("id");   
-            	 $("#sidebar-wrapper").show();
             	 $("#matchNumber").html("Match #"+matchInfo.rounds[round].matches[index].matchNumber+"<br/>");    
-            	 $("#matchVersus").html(matchInfo.rounds[round].matches[index].p1 + " VS " + matchInfo.rounds[round].matches[index].p2+"<br/>"); 
-            	 $("#matchScore").html(fmtScore(matchInfo.rounds[round].matches[index].p1Score) + " VS " + fmtScore(matchInfo.rounds[round].matches[index].p2Score)+"<br/>"); 
-            	 
-            	 
-            	 
+            	 $("#matchVersus").html("<div id='teamName1'>"+matchInfo.rounds[round].matches[index].p1 + "</div> VS <div id='teamName2'> " + matchInfo.rounds[round].matches[index].p2+"</div>"); 
+            	 $("#matchScore").html(fmtScore(matchInfo.rounds[round].matches[index].p1Score) + " - " + fmtScore(matchInfo.rounds[round].matches[index].p2Score)+"<br/>");
             	});
+            
+            $(".match").on('mouseout',function(){             
+           	 $("#matchNumber").empty();    
+           	 $("#matchVersus").empty();
+           	 $("#matchScore").empty();
+
+           	});
+            
+    
         });
      
 

@@ -12,22 +12,22 @@
     -moz-transition: all 0.5s ease;
     -o-transition: all 0.5s ease;
     transition: all 0.5s ease;
+    
 }
 
 #wrapper.toggled {
     padding-left: 250px;
+    
 }
 
 #sidebar-wrapper {
     z-index: 1000;
-    position: fixed;
-    left: 250px;
-    width: 0;
+    position: absolute;
     height: 100%;
     margin-left: -250px;
-    overflow-y: auto;
     background: #000;
     color:white;
+    
 }
 
 #wrapper.toggled #sidebar-wrapper {
@@ -48,7 +48,7 @@
 /* Sidebar Styles */
 
 .sidebar-nav {
-    position: absolute;
+    
     top: 0;
     width: 250px;
     margin: 0;
@@ -104,6 +104,7 @@
 
     #sidebar-wrapper {
         width: 250px;
+        
     }
 
     #wrapper.toggled #sidebar-wrapper {
@@ -122,20 +123,31 @@
 }
 
 #matchNumber{
-	font-size: 40px;
+	font-size: 3em;
 	text-align: center;
 	
 }
 
 #matchVersus{
-	font-size: 30px;
+	font-size: 2em;
 	text-align: center;
 	
 }
 
 #matchScore{
-	font-size: 20px;
+	font-size: 1em;
 	text-align: center;
+	
+}
+
+
+#teamName1{
+	color:#0033FF;
+	
+}
+
+#teamName2{
+	color:#FF8100;
 	
 }
 
