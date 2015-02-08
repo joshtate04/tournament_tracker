@@ -30,7 +30,7 @@ public class LoginServlet extends HttpServlet{
         if(user != null){
             HttpSession session = request.getSession(false);  
             if(session!=null)  
-            	session.setAttribute("name", n);  
+            	session.setAttribute("username", n);  
 
             RequestDispatcher rd=request.getRequestDispatcher("/Login/welcome.jsp");    
             rd.forward(request,response);

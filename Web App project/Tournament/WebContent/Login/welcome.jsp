@@ -14,7 +14,7 @@
     <h3>Login successful!!!</h3>  
     <h4>  
         Hello,  
-        <%=session.getAttribute("name")%>
+        <%=session.getAttribute("fname")%>
    	</h4>
    	
    	<a href="/UserPage/UserPage.jsp">My Profile</a> 
