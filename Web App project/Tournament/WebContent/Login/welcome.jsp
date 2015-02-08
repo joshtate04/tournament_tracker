@@ -15,5 +15,6 @@
     <h4>  
         Hello,  
         <%=session.getAttribute("name")%></h4>  
+        <a href="/UserPage/UserPage.jsp">My Profile</a> 
 </body>  
 </html>  

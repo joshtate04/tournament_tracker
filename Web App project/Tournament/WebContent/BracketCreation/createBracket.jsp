@@ -6,9 +6,14 @@
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
 <title>Create Bracket</title>
+
 <%@include file="/includes/head.jsp" %>
 <link rel="stylesheet" type="text/css" href="/css/bracket.css" />
 <link rel="stylesheet" type="text/css" href="/css/simple-sidebar.css" />
+
+
+
+
 
 <script>
     //http://whileonefork.blogspot.ca/2010/10/jquery-json-to-draw-elimination-single.html
@@ -23,8 +28,8 @@
     };
   
 
-    $(document).ready(function($) {
-        $("#genBracket").hide(); //Hide the generate button until number of teams is selected
+    $(document).ready(function($) {        
+    	$("#genBracket").hide(); //Hide the generate button until number of teams is selected    	
         loadPage();
         fillNumTeams(); //Generate a dropdown with numbers to select amount of teams        
         
@@ -34,17 +39,66 @@
         $('#genBracket').click(function() {
             $('#bracketContainer').empty();
             $("#teamForm").hide();
-            $("#genBracket").hide();           
+            $("#genBracket").hide();            
             createTeamList();
             renderBracket();
+            
+            
+            $(".score").on('focusin',function(){
+            	text = $(this).text(); 
+            	if(isNaN(text)){
+            		$(this).html(' ');            		
+            	}     	
+            });
+            
+            
+            
+            
+            $(".score").on('focusout',function(){              	 
+            	matchNum= $(this).parent().attr('matchNum');   
+            	round = $(this).parent().parent().parent().attr("id"); 
+            	index = $(this).parent().parent().attr("id");   
+            	text = $(this).text();          	
+            	if(!isNaN(text) && text > 0){
+            		
+            		
+            		p1Score = $('#p1-'+matchNum).text();
+            		p2Score = $('#p2-'+matchNum).text();   
+            		
+            		
+            		
+            		
+            		if((!isNaN(p1Score) && p1Score > 0) && (!isNaN(p2Score) && p1Score > 0)){
+            			matchInfo.rounds[round].matches[index].p1Score = p1Score;
+            			matchInfo.rounds[round].matches[index].p2Score = p2Score;      
+            			if(p1Score > p2Score){
+            				
+            				
+            			}else{
+            				
+            				
+            			}
+            			
+            			
+            			
+            		}         		
+            	}else{
+            		$(this).html('--');            		
+            	}
+           });     
+            
+            
+                          
+                       
+            
+            
+            
             $(".match").on('mouseover',function(){  
             	 index = (this.id);             	 
             	 round = $(this).parent().attr("id");   
-            	 matchNum = matchInfo.rounds[round].matches[index].matchNumber;
-            	 
+            	 matchNum = matchInfo.rounds[round].matches[index].matchNumber;            	 
             	 	//$( "div.p1:contains('Team1')" ).css( "background-color", "pink");
-            	 	//$( "div.p1:contains('Team1')" ).css( "background-color", "pink");
-            	 
+            	 	//$( "div.p1:contains('Team1')" ).css( "background-color", "pink");            	 
             	 
             	 $(".p1[matchNum="+matchNum+"]").css("color", "white");
             	 $(".p1[matchNum="+matchNum+"]").css("background-color", "black");
@@ -69,8 +123,7 @@
            	 $("#matchScore").empty();
 
            	});
-            
-            
+                       
          
             
             
@@ -83,14 +136,14 @@
         /*********************************************/
         /* 		Create text boxes for team names	 */
         /*********************************************/
-        $("#numTeams").change(function() {
+        $("#numTeams").change(function() {        
             $('#numTeamsForm').hide();
             $("#genBracket").show();
-            num = $(this).val();
-            for (i = 1; i <= num; i++) {
-                var newTextBoxDiv = $(document.createElement('div')).attr("id", 'team' + i);
-                newTextBoxDiv.after().html('<label>Team ' + i + ' : </label>' + '<input type="text" name="textbox' + i + '" id="textbox' + i + '" value="" >');
-                newTextBoxDiv.appendTo("#teamForm");
+            num = $(this).val();                
+            for (i = 1; i <= num; i++) {               	
+            	var newTextBoxDiv= $('<div/>', { id: 'team' + i  });
+            	newTextBoxDiv.appendTo("#teamForm");
+            	newTextBoxDiv.after().html('<label>Team ' + i + ' : </label>' + '<input type="text" name="textbox' + i + '" id="textbox' + i + '" value="" >');             
             }
         });
 
@@ -1402,7 +1455,7 @@
                 	  var matchHtml = '<div class="spacer"></div>' ;                	  
                 	 
                   }else{                    	  
-                	  var matchHtml = '<div class="match"  id=' + match.matchIndex + '>' + '<div class="p1" matchNum=' + matchNum + '>' + fmtName(match.p1) + '<div class="score">' + fmtScore(match.p1Score) + '</div></div>' + '<div class="spacer"></div>' + '<div class="p2" matchNum=' + matchNum + '>' + fmtName(match.p2) + '<div class="score">' + fmtScore(match.p2Score) + '</div></div>';                	  
+                	  var matchHtml = '<div class="match"  id=' + match.matchIndex + '>' + '<div class="p1" matchNum=' + matchNum + '>' + fmtName(match.p1) + '<div class="score" id=p1-' + matchNum + ' contenteditable >' + fmtScore(match.p1Score) + '</div></div>' + '<div class="spacer"></div>' + '<div class="p2" matchNum=' + matchNum + '>' + fmtName(match.p2) + '<div class="score" id=p2-' + matchNum + '  contenteditable >' + fmtScore(match.p2Score) + '</div></div>';                	  
                 	  matchNum++;
                   }           
                   
@@ -1479,8 +1532,7 @@
          <ul class="sidebar-nav">
             <li class="sidebar-brand" id="matchNumber"></li>
            	<li id="matchVersus"></li>  
-           	<li id="matchScore"></li>            
-                      
+           	<li id="matchScore"></li>                      
          </ul>
       </div>
       <!-- /#sidebar-wrapper -->
@@ -1494,8 +1546,10 @@
                      <select id="numTeams">
                      </select>
                   </form>
-                  <br/><br/>
+                  <br/><br/>           
                   <div class='teams' id='teamForm'></div>
+                  
+                  
                   <div><a href="#" class="btn btn-primary" id="genBracket">GENERATE BRACKET</a></div>
                   <div id="bracketContainer"  class="tournament"></div>
                </div>
