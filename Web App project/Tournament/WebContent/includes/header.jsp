@@ -29,8 +29,8 @@
       	if(curr_user == null) {
       %>
       <ul class="nav navbar-nav navbar-right">
+        <li><a href="/Login/signup.jsp"><span class="glyphicon glyphicon-user"></span> Sign Up</a></li>
       	<li><span class="navbar-text">Session: <% out.print(request.getSession().getAttribute("session_id")); %></span>
-        <li><a href="#"><span class="glyphicon glyphicon-user"></span> Sign Up</a></li>
         <li><a href="/Login/login.jsp"><span class="glyphicon glyphicon-log-in"></span> Login</a></li>
       </ul>
       <% } else { %>
