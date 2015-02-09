@@ -13,8 +13,8 @@ import java.util.HashMap;
 import java.util.Map;
 
 public class User extends Mappable {
-	private String first_name;
-	private String last_name;
+	private String firstname;
+	private String lastname;
 	private String email;
 	private String password;
 	private String password_confirmation;
@@ -26,10 +26,10 @@ public class User extends Mappable {
 	
 	public User(HashMap<String, Object> attributes) {
 		super();
-		if(attributes.containsKey("first_name"))
-			this.first_name = attributes.get("first_name").toString();
-		if(attributes.containsKey("last_name"))
-			this.last_name = attributes.get("last_name").toString();
+		if(attributes.containsKey("firstname"))
+			this.firstname = attributes.get("firstname").toString();
+		if(attributes.containsKey("lastname"))
+			this.lastname = attributes.get("lastname").toString();
 		if(attributes.containsKey("email"))
 			this.email = attributes.get("email").toString();
 		if(attributes.containsKey("username"))
@@ -79,12 +79,12 @@ public class User extends Mappable {
 
 	// User-specific methods
 	public String name(){
-		return first_name + " " + last_name;
+		return firstname + " " + lastname;
 	}
 	
 	public String get_email(){ return email; }
-	public String get_first_name(){ return first_name; }
-	public String get_last_name(){ return last_name; }
+	public String get_first_name(){ return firstname; }
+	public String get_last_name(){ return lastname; }
 	
 	
 	/**
