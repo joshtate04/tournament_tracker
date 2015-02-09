@@ -22,7 +22,7 @@
 		      				<div class='panel panel-primary'>
 		      			<% } %>
 		      				<div class='panel-heading text-center'>
-		      					<h3 class='panel-title'>Member Login</h3>
+		      					<h3 class='panel-title'>Member Registration</h3>
 		      				</div>
 		      				<div class='panel-body'>
 		      					<div class='form-group'>
