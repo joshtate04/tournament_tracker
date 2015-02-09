@@ -61,7 +61,7 @@
                 index = $(this).parent().parent().attr("id");
                 text = $(this).text();
 
-                if (!isNaN(text) && text >= 0) {        	
+                if (!isNaN(text) && text >= 0 && text != " " ) {  
                     if ($(this).attr('player') == 'p1') {
                        p1Score = $(this).text();  
                        matchInfo.rounds[round].matches[index].p1Score = p1Score;
@@ -76,7 +76,8 @@
                         	
                         }
                     }                    
-                } else {                	
+                } else {               
+                	
                     $(this).html('--');
                     if ($(this).attr('player') == 'p1') {                       
                         matchInfo.rounds[round].matches[index].p1Score = null;
