@@ -5,7 +5,6 @@
    <head>
       <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
       <title>Insert title here</title>
-      
       <%@include file="/includes/head.jsp" %>
       <script>
          $( document ).ready(function() { loadPage() });

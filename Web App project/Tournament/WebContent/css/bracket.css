@@ -1,13 +1,14 @@
 .tournament {          
     border: dashed 1px solid;  
     overflow: auto;  
+   
   }  
   .tournament .bracket {       
     min-width: 100px;      
     vertical-align: top;  
-    float: left;  
-    
+    float: left; 
   }   
+  
   
   .score{
   	float:right;
@@ -18,7 +19,9 @@
   .tournament .bracket .match {     
     border-top: 1px solid;  
     border-right: 1px solid;  
-    border-bottom: 1px solid;    
+    border-bottom: 1px solid;  
+    
+     
   }  
   .tournament .bracket .match .p1 {      
     height: 20px;     
@@ -61,3 +64,5 @@
     width: 0px;  
     clear: both;      
   }      
+  
+
