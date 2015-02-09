@@ -1,3 +1,13 @@
+<%@page import="sessioncontrol.SessionController"%>
+<%@page import="mappable.User" %>
+<%
+	User user = SessionController.CurrentUser(request);
+	if(user == null)
+		response.sendRedirect("/Login/login.jsp");
+
+%>
+
+
 <!DOCTYPE html>
 <html lang="en">
 

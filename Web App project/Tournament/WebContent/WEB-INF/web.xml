@@ -12,6 +12,17 @@
         <servlet-name>login</servlet-name>  
         <url-pattern>/loginServlet</url-pattern>  
     </servlet-mapping>  
+
+
+    <servlet>  
+        <servlet-name>logout</servlet-name>  
+        <servlet-class>com.amzi.servlets.LogoutServlet</servlet-class>  
+    </servlet>  
+  
+    <servlet-mapping>  
+        <servlet-name>logout</servlet-name>  
+        <url-pattern>/logoutServlet</url-pattern>  
+    </servlet-mapping>  
   
     
     

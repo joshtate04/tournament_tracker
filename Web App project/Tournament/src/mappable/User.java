@@ -1,12 +1,16 @@
 package mappable;
 
+import java.sql.ResultSetMetaData;
 import java.sql.SQLException;
-
 import java.sql.Connection;  
 import java.sql.DriverManager;  
 import java.sql.PreparedStatement;  
 import java.sql.ResultSet;  
 import java.sql.SQLException;  
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
+import java.util.HashMap;
+import java.util.Map;
 
 public class User extends Mappable {
 	private String first_name;
@@ -14,25 +18,63 @@ public class User extends Mappable {
 	private String email;
 	private String password;
 	private String password_confirmation;
-	
-	public User(String name) {
-		super();
-		this.first_name = name;
-		this.last_name = name;
-		this.email = name;
-	}
+	private int id;
+	private String username;
+	private String session_id;
 	
 	public final int MIN_PASSWORD_LENGTH = 8;
 	
-	public User(String first_name, String last_name, String email, String password, String password_confirmation){
+	public User(HashMap<String, Object> attributes) {
 		super();
-		this.first_name = first_name;
-		this.last_name = last_name;
-		this.email = email;
+		if(attributes.containsKey("first_name"))
+			this.first_name = attributes.get("first_name").toString();
+		if(attributes.containsKey("last_name"))
+			this.last_name = attributes.get("last_name").toString();
+		if(attributes.containsKey("email"))
+			this.email = attributes.get("email").toString();
+		if(attributes.containsKey("username"))
+			this.username = attributes.get("username").toString();
+		if(attributes.containsKey("id"))
+			this.id = Integer.parseInt(attributes.get("id").toString());
+	}
+	
+	
+	public static User find_by_session(String session_id) {
+		System.out.println("Authenticating user...");
+		Connection conn = (Connection) new DatabaseConnection().connect();
+		User user = null;
 		
-		if (!password.isEmpty()){
-			this.password = password;
+		if (conn == null)
+			return user;
+		
+		try {
+			PreparedStatement pst1 = conn.prepareStatement("select user_id from sessions where session_id=? AND expiry > ?");
+			pst1.setString(1, session_id);
+			pst1.setString(2, new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(Calendar.getInstance().getTime()));
+			ResultSet rs1 = pst1.executeQuery();
+			
+			if(rs1.next()){
+				PreparedStatement pst2 = conn.prepareStatement("select * from users where id=?");
+				pst2.setString(1, Integer.toString(rs1.getInt("user_id")));
+				
+				ResultSet rs2 = pst2.executeQuery();
+				ResultSetMetaData md = rs2.getMetaData();
+				HashMap<String, Object> datamap = new HashMap<String, Object>();
+				
+				if (rs2.next()){
+					for(int i = 1; i <= md.getColumnCount(); ++i)
+						datamap.put(md.getColumnName(i), rs2.getObject(i));
+					
+					user = new User(datamap);
+					System.out.println("USER FOUND!!");
+				}
+			}
+			
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
 		}
+		return user; 
 	}
 
 	// User-specific methods
@@ -62,14 +104,19 @@ public class User extends Mappable {
 			return user;
 		
 		try {
-			PreparedStatement pst = conn.prepareStatement("select * from users where username=? and password=?");
+			PreparedStatement pst = conn.prepareStatement("select id from users where username=? and password=?");
 			pst.setString(1, username);
 			pst.setString(2, password);
 			
 			ResultSet rs = pst.executeQuery();
+			ResultSetMetaData md = rs.getMetaData();
+			HashMap<String, Object> datamap = new HashMap<String, Object>();
 			
 			if (rs.next()){
-				user = new User(rs.getString(2));
+				for(int i = 1; i <= md.getColumnCount(); ++i)
+					datamap.put(md.getColumnName(i), rs.getObject(i));
+				
+				user = new User(datamap);
 				System.out.println("USER FOUND!!");
 			}
 		} catch (SQLException e) {
@@ -78,9 +125,39 @@ public class User extends Mappable {
 		}
 		return user;  
 	}
+
+	public String SessionID(){
+		return session_id;
+	}
+
+	public boolean CreateSession(String session_id){
+		this.session_id = session_id;
+		Connection conn = (Connection) new DatabaseConnection().connect();
+		
+		if (conn == null)
+			return false;
+		
+		try {
+			PreparedStatement pst = conn.prepareStatement("INSERT INTO sessions (session_id,user_id,expiry) VALUES(?,?,?)");
+			pst.setString(1, session_id);
+			pst.setString(2, Integer.toString(id));
+			pst.setString(3, SetSessionExpiry());
+			pst.execute();
+			return true;
+		}
+		catch (SQLException e){
+			e.printStackTrace();
+			return false;
+		}
+	}
 	
-	
-	
+	private String SetSessionExpiry(){
+		Calendar cal = Calendar.getInstance();
+		cal.add(Calendar.DATE, 1);
+		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+		
+		return sdf.format(cal.getTime());
+	}
 	
 	
 	
