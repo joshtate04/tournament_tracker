@@ -96,7 +96,7 @@
 					<div class="col-lg-12">
 						<h4>
 							<img src="/DevRes/defaultProfile.jpg" width="80" height="80" class="img-circle" class="img-thumbnail">
-							<%=session.getAttribute("name") %>
+							<%=session.getAttribute("username") %>
 						</h4>
 						<a href="#menu-toggle" class="btn btn-default" id="menu-toggle">Toggle Menu</a>
 						<hr>
