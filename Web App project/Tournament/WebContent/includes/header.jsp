@@ -1,3 +1,5 @@
+<%@page import="sessioncontrol.SessionController"%>
+<%@page import="mappable.User"%>
 <nav class="navbar navbar-default">
   <div class="container-fluid">
     <div class="navbar-header">
@@ -22,10 +24,27 @@
           </ul>
         </li>      
       </ul>
+      <% 
+      	User curr_user = SessionController.CurrentUser(request);
+      	if(curr_user == null) {
+      %>
       <ul class="nav navbar-nav navbar-right">
-        <li><a href="#"><span class="glyphicon glyphicon-user"></span> Sign Up</a></li>
+        <li><a href="/Login/signup.jsp"><span class="glyphicon glyphicon-user"></span> Sign Up</a></li>
+      	<li><span class="navbar-text">Session: <% out.print(request.getSession().getAttribute("session_id")); %></span>
         <li><a href="/Login/login.jsp"><span class="glyphicon glyphicon-log-in"></span> Login</a></li>
       </ul>
+      <% } else { %>
+      <ul class="nav navbar-nav navbar-right">
+      	<li><span class="navbar-text">Session: <% out.print(request.getSession().getAttribute("session_id")); %></span>
+        <li id='page3' class="dropdown">        
+          <a class="dropdown-toggle" data-toggle="dropdown" href="#"><% out.print(curr_user.name()); %> <span class="caret"></span></a>
+          <ul class="dropdown-menu">
+            <li><a href="/UserPage/UserPage.jsp">My Page</a></li>
+            <li><a href="/logoutServlet">Logout</a></li>
+          </ul>
+        </li>  
+      </ul>
+      <% } %>
     </div>
   </div>
 </nav>

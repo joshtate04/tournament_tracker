@@ -1,10 +1,13 @@
 <%@ page language="java" contentType="text/html; charset=ISO-8859-1"  
-   pageEncoding="ISO-8859-1"%>  
+   pageEncoding="ISO-8859-1"%> 
+   
+<% 	if (SessionController.CurrentUser(request) != null)
+		response.sendRedirect("/UserPage/UserPage.jsp"); %>   
+    
 <html>
    	<head>
       	<meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
-      	<title>Login Application</title>
-      	<!-- <link rel="stylesheet" type="text/css" href="/Login/login.css"> -->
+      	<title>Login Application</title>      
       	<%@include file="/includes/head.jsp" %>
       	<script>
         	$( document ).ready(function() { loadPage() });
