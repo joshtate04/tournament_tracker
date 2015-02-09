@@ -1,4 +1,7 @@
+![TournLogo.JPG](https://bitbucket.org/repo/5eLaRr/images/1445101553-TournLogo.JPG)
+
 # Tournament Tracker README #
+
 
 ### What is this repository for? ###
 
@@ -11,7 +14,8 @@
 * Summary of set up
 * Configuration
 * Dependencies
-* Database configuration
+* Database being used is mySQL
+* All Java development is being done in Eclipse Luna IDE
 * How to run tests
 * Deployment instructions
 
@@ -20,6 +24,8 @@
 * Writing tests
 * Code review
 * Other guidelines
+*All code is pushed to a Development stage and tested before being used in the master.
+This technique allows for seamless testing and allows all developers to contribute without having overwrite issues.
 
 ### Who do I talk to? ###
 
