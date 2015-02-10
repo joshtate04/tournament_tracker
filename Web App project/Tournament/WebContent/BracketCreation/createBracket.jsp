@@ -175,42 +175,13 @@
             matchNum = matchInfo.rounds[round].matches[index].matchNumber;
             team1 = $(".p1[matchNum=" + matchNum + "]").attr('id');
             team2 = $(".p2[matchNum=" + matchNum + "]").attr('id');
-            
-            /* PATH FOLLOWING TEAM
-            if(team1 != ""){
-            	 $( "div.p1:contains("+team1+")" ).css( "background-color", "pink");          	
-            }
-            
-            if(team2 != ""){
-           	 $( "div.p1:contains("+team2+")" ).css( "background-color", "green");          	
-           }
-                */         
-
-            $(".p1[matchNum=" + matchNum + "]").css("color", "white");
-            $(".p1[matchNum=" + matchNum + "]").css("background-color", "black");
-            $(".p2[matchNum=" + matchNum + "]").css("color", "white");
-            $(".p2[matchNum=" + matchNum + "]").css("background-color", "black");                  
             $("#matchNumber").html("Match #" + matchNum + "<br/>");
             $("#matchVersus").html("<div id='teamName1'>" + fmtName( matchInfo.rounds[round].matches[index].p1) + "</div> VS <div id='teamName2'> " + fmtName( matchInfo.rounds[round].matches[index].p2) + "</div>");
             $("#matchScore").html(fmtScore(matchInfo.rounds[round].matches[index].p1Score) + " - " + fmtScore(matchInfo.rounds[round].matches[index].p2Score) + "<br/>");
         });
 
 
-        $(".match").on('mouseout', function() {
-            $(".p1[matchNum=" + matchNum + "]").css("color", "black");
-            $(".p1[matchNum=" + matchNum + "]").css("background-color", "#E0E0E0");
-            $(".p2[matchNum=" + matchNum + "]").css("color", "black");
-            $(".p2[matchNum=" + matchNum + "]").css("background-color", "#E0E0E0");
-            /*
-            if(team1 != ""){
-           	 $( "div.p1:contains("+team1+")" ).css( "background-color", "#E0E0E0");          	
-           }
-           
-           if(team2 != ""){
-          	 $( "div.p1:contains("+team2+")" ).css( "background-color", "#E0E0E0");          	
-          }
-           
-           */                
+        $(".match").on('mouseout', function() {                   
             $("#matchNumber").empty();
             $("#matchVersus").empty();
             $("#matchScore").empty();

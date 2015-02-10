@@ -16,22 +16,22 @@
   	margin-left: 20px;
   }
     
-  .tournament .bracket .match {     
+.match {     
     border-top: 1px solid;  
     border-right: 1px solid;  
     border-bottom: 1px solid;  
     
      
   }  
-  .tournament .bracket .match .p1 {      
+ .p1 {      
     height: 20px;     
     background-color: #E0E0E0; 
   }  
-  .tournament .bracket .match .p2 {  
+ .p2 {  
   	background-color: #E0E0E0;
     height: 20px;  
   }      
-  .tournament .bracket .match .spacer {   
+ .spacer {   
     height: 38px;  
   }  
   .tournament .bracket .spacer {  
