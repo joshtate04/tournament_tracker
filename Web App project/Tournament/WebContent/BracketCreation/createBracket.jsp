@@ -83,7 +83,7 @@
 
 
 
-        $(".score").on('focusout', function() {
+        $(".score").on('focusout', function() {        	
             matchNum = $(this).parent().attr('matchNum');
             matchNum = parseInt(matchNum, "10");
             round = $(this).parent().parent().parent().attr("id");
@@ -102,136 +102,58 @@
                     matchInfo.rounds[round].matches[index].p2Score = p2Score;
                 }
                 if ((!isNaN(matchInfo.rounds[round].matches[index].p1Score) && matchInfo.rounds[round].matches[index].p1Score >= 0 && matchInfo.rounds[round].matches[index].p1Score != null) && (!isNaN(matchInfo.rounds[round].matches[index].p2Score) && matchInfo.rounds[round].matches[index].p2Score >= 0 && matchInfo.rounds[round].matches[index].p2Score != null)) {
-                    if (matchNum == 4 || matchNum == 8 || matchNum == 16) {
-          
-
-
-                    } else {
-                        switch (matchInfo.rounds[round].matches[index].matchIndex) {
+                                     
+                        switch (matchInfo.rounds[round].matches[index].matchIndex) {                       
                             case 0:
-                            case 1:
-                                if (p1Score > p2Score) {
-                                    if (matchNum % 2 == 0) {
-                                    	 matchInfo.rounds[round + 1].matches[0].p1 = matchInfo.rounds[round].matches[index].p1;
-                                         $('#bracketContainer').empty();
-                                         renderBracket();
-
-                                    } else {
-                                        matchInfo.rounds[round + 1].matches[0].p2 = matchInfo.rounds[round].matches[index].p1;
-                                        $('#bracketContainer').empty();
-                                        renderBracket();
-                                    }
-
-                                } else if (p2Score > p1Score) {
-                                    if (matchNum % 2 == 0) {
-                                    	 matchInfo.rounds[round + 1].matches[0].p1 = matchInfo.rounds[round].matches[index].p2;
-                                         $('#bracketContainer').empty();
-                                         renderBracket();
-                                    } else {
-                                        matchInfo.rounds[round + 1].matches[0].p2 = matchInfo.rounds[round].matches[index].p2;
-                                        $('#bracketContainer').empty();
-                                        renderBracket();
-                                    }
-                                }
+                            	replace = "p1";
+                            	newIndex = 0;
                                 break;
-                                
-                                
-                                
+                            case 1:            
+                            	replace = "p2";
+                                newIndex = 0;
+                                break;                          
                             case 2:
+                            	replace = "p1";
+                            	newIndex = 1;
+                                break;
                             case 3:
-                                if (p1Score > p2Score) {
-                                    if (matchNum % 2 == 0) {
-                                    	 matchInfo.rounds[round + 1].matches[1].p1 = matchInfo.rounds[round].matches[index].p1;
-                                         $('#bracketContainer').empty();
-                                         renderBracket();
-
-                                    } else {
-                                        matchInfo.rounds[round + 1].matches[1].p2 = matchInfo.rounds[round].matches[index].p1;
-                                        $('#bracketContainer').empty();
-                                        renderBracket();
-                                    }
-
-                                } else if (p2Score > p1Score) {
-                                    if (matchNum % 2 == 0) {
-                                    	 matchInfo.rounds[round + 1].matches[1].p1 = matchInfo.rounds[round].matches[index].p2;
-                                         $('#bracketContainer').empty();
-                                         renderBracket();
-                                    } else {
-                                        matchInfo.rounds[round + 1].matches[1].p2 = matchInfo.rounds[round].matches[index].p2;
-                                        $('#bracketContainer').empty();
-                                        renderBracket();
-                                    }
-                                }
-                                break;
-                                
-                                
-                                
+                            	replace = "p2";
+                            	newIndex = 1;
+                                break;                       
                             case 4:
+                            	replace = "p1";
+                            	newIndex = 2;
+                                break;
                             case 5:
-                                if (p1Score > p2Score) {
-                                    if (matchNum % 2 == 0) {
-                                    	 matchInfo.rounds[round + 1].matches[2].p1 = matchInfo.rounds[round].matches[index].p1;
-                                         $('#bracketContainer').empty();
-                                         renderBracket();
-
-                                    } else {
-                                        matchInfo.rounds[round + 1].matches[2].p2 = matchInfo.rounds[round].matches[index].p1;
-                                        $('#bracketContainer').empty();
-                                        renderBracket();
-                                    }
-
-                                } else if (p2Score > p1Score) {
-                                    if (matchNum % 2 == 0) {
-                                    	 matchInfo.rounds[round + 1].matches[2].p1 = matchInfo.rounds[round].matches[index].p2;
-                                         $('#bracketContainer').empty();
-                                         renderBracket();
-                                    } else {
-                                        matchInfo.rounds[round + 1].matches[2].p2 = matchInfo.rounds[round].matches[index].p2;
-                                        $('#bracketContainer').empty();
-                                        renderBracket();
-                                    }
-                                }
-                                break;
-                                
-                                
-                                
-                                
-                                
+                            	replace = "p2";
+                            	newIndex = 2;
+                                break;                                
                             case 6:
-                            case 7:
-                                if (p1Score > p2Score) {
-                                    if (matchNum % 2 == 0) {
-                                    	 matchInfo.rounds[round + 1].matches[3].p1 = matchInfo.rounds[round].matches[index].p1;
-                                         $('#bracketContainer').empty();
-                                         renderBracket();
-
-                                    } else {
-                                        matchInfo.rounds[round + 1].matches[3].p2 = matchInfo.rounds[round].matches[index].p1;
-                                        $('#bracketContainer').empty();
-                                        renderBracket();
-                                    }
-
-                                } else if (p2Score > p1Score) {
-                                    if (matchNum % 2 == 0) {
-                                    	 matchInfo.rounds[round + 1].matches[3].p1 = matchInfo.rounds[round].matches[index].p2;
-                                         $('#bracketContainer').empty();
-                                         renderBracket();
-                                    } else {
-                                        matchInfo.rounds[round + 1].matches[3].p2 = matchInfo.rounds[round].matches[index].p2;
-                                        $('#bracketContainer').empty();
-                                        renderBracket();
-                                    }
-                                }
+                            	replace = "p1";
+                            	newIndex = 3;
                                 break;
+                            case 7:
+                            	replace = "p2";
+                            	newIndex = 3;
+                                break;
+                        }  
+                                 
+                        if(p1Score > p2Score){
+                        	if(replace == 'p1'){                        	
+                        		matchInfo.rounds[round + 1].matches[newIndex].p1 = matchInfo.rounds[round].matches[index].p1;                         		
+                        	}else if(replace == 'p2'){
+                        		matchInfo.rounds[round + 1].matches[newIndex].p2 = matchInfo.rounds[round].matches[index].p1;                         		
+                        	}                        	
+                        }else if (p2Score > p1Score) { 
+                        	if(replace == 'p1'){
+                        		matchInfo.rounds[round + 1].matches[newIndex].p1 = matchInfo.rounds[round].matches[index].p2;                         		
+                        	}else if(replace == 'p2'){
+                        		matchInfo.rounds[round + 1].matches[newIndex].p2 = matchInfo.rounds[round].matches[index].p2;                         		
+                        	}                        	
+                        }                  
 
-
-                        }
-
-
-
-                    }
-
-
+                    $('#bracketContainer').empty();
+                    renderBracket();
                 }
             } else {
 
@@ -362,7 +284,6 @@
             case 1.5: //3 teams
                 matchInfo.rounds.push({
                     "name": "Round" + (rounds++),
-
                     "matches": [{
                     	"matchIndex": 0,
                         "p1": teamInfo.team[index].name,
@@ -429,7 +350,7 @@
 
             case 2.5: //5 teams            	
                 matchInfo.rounds.push({
-                        "name": "Round" + (rounds++),
+                       
                         "matches": [{
                         	"matchIndex": 0,
                             "p1": teamInfo.team[index].name,
@@ -451,7 +372,7 @@
                             "p2": "bye"
                         }]
                     }, {
-                        "name": "Round" + (rounds++),
+                       
                         "matches": [{
                             "matchNumber": 2,
                             "matchIndex": 0,
@@ -468,7 +389,7 @@
                             "p2Score": null,
                         }]
                     }, {
-                        "name": "Round" + (rounds),
+                        
                         "matches": [{
                             "matchNumber": 4,
                             "matchIndex": 0,
@@ -685,6 +606,7 @@
                 matchInfo.rounds.push({
                         "name": "Round" + (rounds++),
                         "matches": [{
+                        	"matchIndex": 0,
                             "p1": teamInfo.team[index].name,
                             "p2": "bye"
                         }, {
@@ -695,21 +617,27 @@
                             "p1Score": null,
                             "p2Score": null,
                         }, {
+                        	"matchIndex": 2,
                             "p1": teamInfo.team[index + 3].name,
                             "p2": "bye"
                         }, {
+                        	"matchIndex": 3,
                             "p1": teamInfo.team[index + 4].name,
                             "p2": "bye"
                         }, {
+                        	"matchIndex": 4,
                             "p1": teamInfo.team[index + 5].name,
                             "p2": "bye"
                         }, {
+                        	"matchIndex": 5,
                             "p1": teamInfo.team[index + 6].name,
                             "p2": "bye"
                         }, {
+                        	"matchIndex": 6,
                             "p1": teamInfo.team[index + 7].name,
                             "p2": "bye"
                         }, {
+                        	"matchIndex": 7,
                             "p1": teamInfo.team[index + 8].name,
                             "p2": "bye"
                         }]
@@ -784,6 +712,7 @@
                 matchInfo.rounds.push({
                         "name": "Round" + (rounds++),
                         "matches": [{
+                        	"matchIndex": 0,
                             "p1": teamInfo.team[index].name,
                             "p2": "bye"
                         }, {
@@ -794,30 +723,37 @@
                             "p1Score": null,
                             "p2Score": null,
                         }, {
+                        	"matchIndex": 2,
                             "p1": teamInfo.team[index + 3].name,
                             "p2": "bye"
                         }, {
+                        	"matchIndex": 3,
                             "p1": teamInfo.team[index + 4].name,
                             "p2": "bye"
                         }, {
-                            "p1": teamInfo.team[index + 5].name,
-                            "p2": "bye"
-                        }, {
-                            "matchNumber": 2,
-                            "matchIndex": 5,
+                        	"matchNumber": 2,
+                            "matchIndex": 4,
                             "p1": teamInfo.team[index + 6].name,
                             "p2": teamInfo.team[index + 7].name,
                             "p1Score": null,
-                            "p2Score": null,
+                            "p2Score": null,                  	
+                        	
                         }, {
+                        	"matchIndex": 5,
+                            "p1": teamInfo.team[index + 5].name,
+                            "p2": "bye"
+                            
+                        }, {
+                        	"matchIndex": 6,
                             "p1": teamInfo.team[index + 8].name,
                             "p2": "bye"
                         }, {
+                        	"matchIndex": 7,
                             "p1": teamInfo.team[index + 9].name,
                             "p2": "bye"
                         }]
                     }, {
-                        "name": "Round" + (rounds),
+                        "name": "Round" + (rounds++),
                         "matches": [{
                             "matchNumber": 3,
                             "matchIndex": 0,
@@ -835,8 +771,8 @@
                         }, {
                             "matchNumber": 5,
                             "matchIndex": 2,
-                            "p1": teamInfo.team[5].name,
-                            "p2": null,
+                            "p1": null,
+                            "p2": teamInfo.team[5].name,
                             "p1Score": null,
                             "p2Score": null,
                         }, {
@@ -848,7 +784,7 @@
                             "p2Score": null,
                         }, ]
                     }, {
-                        "name": "Round" + (rounds),
+                        "name": "Round" + (rounds++),
                         "matches": [{
                             "matchNumber": 7,
                             "matchIndex": 0,
@@ -887,6 +823,7 @@
                 matchInfo.rounds.push({
                         "name": "Round" + (rounds++),
                         "matches": [{
+                        	"matchIndex": 0,
                             "p1": teamInfo.team[index].name,
                             "p2": "bye"
                         }, {
@@ -897,22 +834,26 @@
                             "p1Score": null,
                             "p2Score": null,
                         }, {
+                        	"matchIndex": 2,
                             "p1": teamInfo.team[index + 3].name,
                             "p2": "bye"
                         }, {
+                        	"matchIndex": 3,
                             "p1": teamInfo.team[index + 4].name,
                             "p2": "bye"
                         }, {
+                        	 "matchNumber": 2,
+                             "matchIndex": 4,
+                             "p1": teamInfo.team[index + 6].name,
+                             "p2": teamInfo.team[index + 7].name,
+                             "p1Score": null,
+                             "p2Score": null,
+                        }, {
+                        	"matchIndex": 5,                         
                             "p1": teamInfo.team[index + 5].name,
                             "p2": "bye"
                         }, {
-                            "matchNumber": 2,
-                            "matchIndex": 5,
-                            "p1": teamInfo.team[index + 6].name,
-                            "p2": teamInfo.team[index + 7].name,
-                            "p1Score": null,
-                            "p2Score": null,
-                        }, {
+                        	"matchIndex": 6,
                             "p1": teamInfo.team[index + 8].name,
                             "p2": "bye"
                         }, {
@@ -924,7 +865,7 @@
                             "p2Score": null,
                         }]
                     }, {
-                        "name": "Round" + (rounds),
+                        "name": "Round" + (rounds++),
                         "matches": [{
                             "matchNumber": 4,
                             "matchIndex": 0,
@@ -942,8 +883,8 @@
                         }, {
                             "matchNumber": 6,
                             "matchIndex": 2,
-                            "p1": teamInfo.team[5].name,
-                            "p2": null,
+                            "p1": null,
+                            "p2": teamInfo.team[5].name,
                             "p1Score": null,
                             "p2Score": null,
                         }, {
@@ -955,7 +896,7 @@
                             "p2Score": null,
                         }, ]
                     }, {
-                        "name": "Round" + (rounds),
+                        "name": "Round" + (rounds++),
                         "matches": [{
                             "matchNumber": 8,
                             "matchIndex": 0,
