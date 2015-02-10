@@ -43,8 +43,8 @@ public class LoginServlet extends HttpServlet {
 			user.CreateSession(session_id);
 			session.setAttribute("session_id", session_id);
 
-			RequestDispatcher rd = request
-					.getRequestDispatcher("/Login/welcome.jsp");
+			RequestDispatcher rd = request.getRequestDispatcher("/UserPage/UserPage.jsp");
+					//.getRequestDispatcher("/Login/welcome.jsp");
 			rd.forward(request, response);
 		} else {
 			RequestDispatcher rd = request

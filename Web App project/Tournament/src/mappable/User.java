@@ -8,8 +8,10 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;  
 import java.sql.SQLException;  
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 public class User extends Mappable {
@@ -21,6 +23,7 @@ public class User extends Mappable {
 	private int id;
 	private String username;
 	private String session_id;
+	private String regdate;
 	
 	public final int MIN_PASSWORD_LENGTH = 8;
 	
@@ -36,6 +39,9 @@ public class User extends Mappable {
 			this.username = attributes.get("username").toString();
 		if(attributes.containsKey("id"))
 			this.id = Integer.parseInt(attributes.get("id").toString());
+		if(attributes.containsKey("regdate")){
+			this.regdate = attributes.get("regdate").toString();
+		}
 	}
 	
 	
@@ -85,6 +91,7 @@ public class User extends Mappable {
 	public String get_email(){ return email; }
 	public String get_first_name(){ return firstname; }
 	public String get_last_name(){ return lastname; }
+	public String get_reg_date(){ return regdate; }
 	
 	
 	/**
@@ -244,7 +251,7 @@ public class User extends Mappable {
 	// This will return an array of users (or we can change to a list of something)
 	// based on a passed in SQL query
 	public Mappable[] where(String query) {
-		// TODO Auto-generated method stub
+
 		return null;
 	}
 
@@ -252,6 +259,9 @@ public class User extends Mappable {
 	// Not sure how I want to do that yet, we can place it on the back burner
 	public Mappable[] where() {
 		// TODO Auto-generated method stub
+		
+		
+		
 		return null;
 	}
 
