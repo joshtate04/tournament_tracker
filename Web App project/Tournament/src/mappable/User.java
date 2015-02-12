@@ -37,10 +37,10 @@ public class User extends Mappable {
 			this.username = attributes.get("username").toString();
 		if(attributes.containsKey("id"))
 			this.id = Integer.parseInt(attributes.get("id").toString());
-		if(attributes.containsKey("password"))
-			this.password = attributes.get("password").toString();
 		else
 			id = 0;
+		if(attributes.containsKey("password"))
+			this.password = attributes.get("password").toString();
 		
 		permission = 0;
 	}
@@ -111,7 +111,7 @@ public class User extends Mappable {
 			return user;
 		
 		try {
-			PreparedStatement pst = conn.prepareStatement("select id from users where username=? and password=?");
+			PreparedStatement pst = conn.prepareStatement("select * from users where username=? and password=?");
 			pst.setString(1, username);
 			pst.setString(2, password);
 			
@@ -149,6 +149,7 @@ public class User extends Mappable {
 			pst.setString(1, session_id);
 			pst.setString(2, Integer.toString(id));
 			pst.setString(3, SetSessionExpiry());
+			System.out.println(pst.toString());
 			pst.execute();
 			return true;
 		}
