@@ -13,6 +13,9 @@ import javax.servlet.http.HttpSession;
 
 import java.security.SecureRandom;
 import java.sql.*; 
+import java.util.HashMap;
+import java.util.Iterator;
+import java.util.Map;
 
 import mappable.DatabaseConnection;
 import mappable.User;
@@ -24,70 +27,55 @@ public class RegisterServlet extends HttpServlet{
     public void doPost(HttpServletRequest request, HttpServletResponse response)    
             throws ServletException, IOException {    
   
-        response.setContentType("text/html");    
-        PrintWriter out = response.getWriter();    
-        String usr = request.getParameter("username");    
-        String pwd = request.getParameter("password");
-        String fname = request.getParameter("firstname");
-        String lname = request.getParameter("lastname");
-        String email = request.getParameter("email");
-        int permission =  0;
+        response.setContentType("text/html");
+        HashMap<String,Object> datamap = new HashMap<String,Object>();
+        if(!request.getParameter("username").isEmpty())
+        	datamap.put("username", request.getParameter("username"));
+        if(!request.getParameter("password").isEmpty())
+        	datamap.put("password", request.getParameter("password"));
+        if(!request.getParameter("firstname").isEmpty())
+        	datamap.put("firstname", request.getParameter("firstname"));
+        if(!request.getParameter("lastname").isEmpty())
+        	datamap.put("lastname", request.getParameter("lastname"));
+        if(!request.getParameter("email").isEmpty())
+        	datamap.put("email", request.getParameter("email"));
+        
+        System.out.println(request.getParameter("password"));
+        //int permission =  0;
         int i = 0;
         //connect to database
-        Connection conn = (Connection) new DatabaseConnection().connect();
         
-        //todo validate data
-        
-        //add new user data to database
-		try {
-			PreparedStatement pst = conn.prepareStatement("insert into users(username, password, firstname, lastname, email, permission, regdate) VALUES(?,?,?,?,?,?,CURDATE())");
-			pst.setString(1, usr);
-			pst.setString(2, pwd);
-			pst.setString(3, fname);
-			pst.setString(4, lname);
-			pst.setString(5, email);
-			pst.setInt(6, permission);
-			pst.execute();
-			i = 1;
-			
-		}catch (SQLException e){
-			e.printStackTrace();
-			i = 0;
+		User user = new User(datamap);
+		
+		if(user.save()){
+			String session_id = new BigInteger(130, new SecureRandom())
+			.toString(32);
+			user.CreateSession(session_id);
+			request.getSession().setAttribute("session_id", session_id);
+			System.out.println("Sign up succeeded");
+			response.sendRedirect("/UserPage/UserPage.jsp");
 		}
-		//data was added succesfully, retrieve data for session
-		if (i > 0) {
-        	 User user = User.find_by_authentication(usr,pwd);
-             //if user is not null
-        	 if (user != null) {
-     			HttpSession session = request.getSession(false);
-     			if (session != null)
-     				session.setAttribute("username", usr);
-
-     			//create a new session id to store in database
-     			String session_id = new BigInteger(130, new SecureRandom())
-     					.toString(32);
-     			//store the session in database
-     			user.CreateSession(session_id);
-     			session.setAttribute("session_id", session_id);
-
-     			//show welcome screen
-     			RequestDispatcher rd = request
-     					.getRequestDispatcher("/Login/welcome.jsp");
-     			rd.forward(request, response);
-     		} else {//user does not exists, login failed
-     			RequestDispatcher rd = request
-     					.getRequestDispatcher("/Login/signup.jsp");
-     			response.addHeader("login", "fail");
-     			rd.forward(request, response);
-     		}
-      
-        } else {//login failed
-        	RequestDispatcher rd = request
- 					.getRequestDispatcher("/Login/signup.jsp");
- 			response.addHeader("login", "fail");
- 			rd.forward(request, response);
-        }
-        out.close();    
+		else {
+			Iterator param_iterator = datamap.entrySet().iterator();
+			while(param_iterator.hasNext()){
+				Map.Entry pair = (Map.Entry)param_iterator.next();
+				System.out.println("DATAMAP: "+pair.toString());
+				response.addHeader(pair.getKey().toString(), pair.getValue().toString());
+			}
+			
+			Iterator error_iterator = user.errors().entrySet().iterator();
+			while(error_iterator.hasNext()){
+				Map.Entry pair = (Map.Entry)error_iterator.next();
+				System.out.println("ERROR: "+pair.toString());
+				response.addHeader(pair.getKey().toString()+"_error", pair.getValue().toString());
+			}
+			System.out.println("Sign up failed");
+			response.addHeader("signup", "fail");
+			RequestDispatcher rd = request
+					.getRequestDispatcher("/Login/signup.jsp");
+			System.out.println(response.containsHeader("email"));
+			rd.forward(request, response);
+		}
     }
   
 }   
