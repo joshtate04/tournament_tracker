@@ -2,12 +2,14 @@
 <%@page import="mappable.User" %>
 <%
 	User user = SessionController.CurrentUser(request);
-	if(user == null)
+	if(user == null){
+		System.out.println("Redirecting...");
 		response.sendRedirect("/Login/login.jsp");
+	}
 
 %>
 
-
+<% if (user != null){ %>
 <!DOCTYPE html>
 <html lang="en">
 
@@ -194,3 +196,4 @@
 </body>
 
 </html>
+<% } %>

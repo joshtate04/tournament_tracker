@@ -48,8 +48,8 @@ public class RegisterServlet extends HttpServlet{
 		User user = new User(datamap);
 		
 		if(user.save()){
-			String session_id = new BigInteger(130, new SecureRandom())
-			.toString(32);
+			System.out.println("User saved!");
+			String session_id = new BigInteger(130, new SecureRandom()).toString(32);
 			user.CreateSession(session_id);
 			request.getSession().setAttribute("session_id", session_id);
 			System.out.println("Sign up succeeded");
