@@ -21,6 +21,7 @@ public class User extends Mappable {
 	private int id;
 	private String username;
 	private String session_id;
+	private int permission;
 	
 	public final int MIN_PASSWORD_LENGTH = 8;
 	
@@ -36,6 +37,12 @@ public class User extends Mappable {
 			this.username = attributes.get("username").toString();
 		if(attributes.containsKey("id"))
 			this.id = Integer.parseInt(attributes.get("id").toString());
+		if(attributes.containsKey("password"))
+			this.password = attributes.get("password").toString();
+		else
+			id = 0;
+		
+		permission = 0;
 	}
 	
 	
@@ -171,7 +178,31 @@ public class User extends Mappable {
 		if (!validate())
 			return false; // Return false if 
 		
-		// TODO SQL here
+		Connection conn = new DatabaseConnection().connect();
+		try {
+			PreparedStatement pst = conn.prepareStatement("INSERT INTO users "
+					+ "(username,email,password,firstname,lastname,permission,regdate) "
+					+ "VALUES(?,?,?,?,?,?,CURDATE())");
+			pst.setString(1, username);
+			pst.setString(2, email);
+			pst.setString(3, password);
+			pst.setString(4, firstname);
+			pst.setString(5, lastname);
+			pst.setInt(6, permission);
+			pst.execute();
+			
+			PreparedStatement pst_id = conn.prepareStatement("SELECT id FROM users "
+					+ "WHERE email=?");
+			pst_id.setString(1, email);
+			ResultSet rs = pst_id.executeQuery();
+			rs.next();
+			id = rs.getInt("id");
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+			return false;
+		}
+		
 		after_save();
 		return true;
 	}
@@ -188,9 +219,34 @@ public class User extends Mappable {
 			pst = conn.prepareStatement("select * from users where email=?");
 			pst.setString(1, email);
 			rs = pst.executeQuery();
+			if(rs.next()){
+				if(id == 0 || id != rs.getInt("id")){
+					add_error("email","This email is already taken");
+					status = false;
+				}
+			}
+			
 			
 		} catch (SQLException e) {
-			add_error("Email", "email is already taken");
+			add_error("email", "This email is already taken");
+			status = false;
+		}
+		
+		//UNIQUE USERNAMES
+		try {
+			pst = conn.prepareStatement("select * from users where username=?");
+			pst.setString(1, username);
+			rs = pst.executeQuery();
+			if(rs.next()){
+				if(id == 0 || id != rs.getInt("id")){
+					add_error("username","This username is already taken");
+					status = false;
+				}
+			}
+			
+			
+		} catch (SQLException e) {
+			add_error("username", "This username is already taken");
 			status = false;
 		}
 		
@@ -198,16 +254,32 @@ public class User extends Mappable {
 		if (password != null){
 			if (password.length() < MIN_PASSWORD_LENGTH){
 				status = false;
-				add_error("Password","must be at least "+MIN_PASSWORD_LENGTH+" characters long");
+				add_error("password","Your password must be at least "+MIN_PASSWORD_LENGTH+" characters long");
 			}
 		}
+		if(id == 0 && password == null){
+			status = false;
+			add_error("password","You must enter a password");
+		}
 		
-		//PASSWORD MUST MATCH (IF PRESENT)
-		if (password != null || password_confirmation != null){
-			if (!password.equals(password_confirmation)){
-				status = false;
-				add_error("Password Confirmation","does not match password");
-			}
+		if(firstname == null){
+			status = false;
+			add_error("firstname","You must enter a first name");
+		}
+		
+		if(lastname == null){
+			status = false;
+			add_error("lastname","You must enter a last name");
+		}
+		
+		if(username == null){
+			status = false;
+			add_error("username","You must enter a username");
+		}
+		
+		if(email == null){
+			status = false;
+			add_error("email","You must enter an email address");
 		}
 		
 		return status;
@@ -223,8 +295,8 @@ public class User extends Mappable {
 
 	}
 
-	private void add_error(String key, String error_message){
-		
+	public void add_error(String key, String error_message){
+		errors.put(key, error_message);
 	}
 	
 	public void after_save() {

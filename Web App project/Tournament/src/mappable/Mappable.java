@@ -10,10 +10,10 @@ import java.util.HashMap;
 
 public abstract class Mappable {
 	protected int id;
-	private HashMap<String, ArrayList<String>> errors;
+	protected HashMap<String,String> errors;
 	
 	public Mappable(){
-		errors = new HashMap<String, ArrayList<String>>();
+		errors = new HashMap<String,String>();
 	}
 	
 	// Instance CRUD methods
@@ -30,7 +30,7 @@ public abstract class Mappable {
 	public abstract Mappable[] where(String query);
 	public abstract Mappable[] where();
 	
-	public HashMap<String, ArrayList<String>> errors(){
+	public HashMap<String,String> errors(){
 		return errors;
 	}
 }
