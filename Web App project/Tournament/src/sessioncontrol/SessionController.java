@@ -25,6 +25,7 @@ public class SessionController {
 	
 	
 	public static User CurrentUser(HttpServletRequest request){
+		System.out.println("Checking current user");
 		if(ValidSession(request))
 			return User.find_by_session(request.getSession().getAttribute("session_id").toString());
 		
