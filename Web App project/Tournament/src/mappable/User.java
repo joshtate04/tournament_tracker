@@ -8,8 +8,10 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;  
 import java.sql.SQLException;  
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 public class User extends Mappable {
@@ -21,7 +23,7 @@ public class User extends Mappable {
 	private int id;
 	private String username;
 	private String session_id;
-	private int permission;
+	private String regdate;
 	
 	public final int MIN_PASSWORD_LENGTH = 8;
 	
@@ -37,12 +39,9 @@ public class User extends Mappable {
 			this.username = attributes.get("username").toString();
 		if(attributes.containsKey("id"))
 			this.id = Integer.parseInt(attributes.get("id").toString());
-		else
-			id = 0;
-		if(attributes.containsKey("password"))
-			this.password = attributes.get("password").toString();
-		
-		permission = 0;
+		if(attributes.containsKey("regdate")){
+			this.regdate = attributes.get("regdate").toString();
+		}
 	}
 	
 	
@@ -92,6 +91,7 @@ public class User extends Mappable {
 	public String get_email(){ return email; }
 	public String get_first_name(){ return firstname; }
 	public String get_last_name(){ return lastname; }
+	public String get_reg_date(){ return regdate; }
 	
 	
 	/**
@@ -111,7 +111,7 @@ public class User extends Mappable {
 			return user;
 		
 		try {
-			PreparedStatement pst = conn.prepareStatement("select * from users where username=? and password=?");
+			PreparedStatement pst = conn.prepareStatement("select id from users where username=? and password=?");
 			pst.setString(1, username);
 			pst.setString(2, password);
 			
@@ -149,7 +149,6 @@ public class User extends Mappable {
 			pst.setString(1, session_id);
 			pst.setString(2, Integer.toString(id));
 			pst.setString(3, SetSessionExpiry());
-			System.out.println(pst.toString());
 			pst.execute();
 			return true;
 		}
@@ -179,31 +178,7 @@ public class User extends Mappable {
 		if (!validate())
 			return false; // Return false if 
 		
-		Connection conn = new DatabaseConnection().connect();
-		try {
-			PreparedStatement pst = conn.prepareStatement("INSERT INTO users "
-					+ "(username,email,password,firstname,lastname,permission,regdate) "
-					+ "VALUES(?,?,?,?,?,?,CURDATE())");
-			pst.setString(1, username);
-			pst.setString(2, email);
-			pst.setString(3, password);
-			pst.setString(4, firstname);
-			pst.setString(5, lastname);
-			pst.setInt(6, permission);
-			pst.execute();
-			
-			PreparedStatement pst_id = conn.prepareStatement("SELECT id FROM users "
-					+ "WHERE email=?");
-			pst_id.setString(1, email);
-			ResultSet rs = pst_id.executeQuery();
-			rs.next();
-			id = rs.getInt("id");
-		} catch (SQLException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-			return false;
-		}
-		
+		// TODO SQL here
 		after_save();
 		return true;
 	}
@@ -220,34 +195,9 @@ public class User extends Mappable {
 			pst = conn.prepareStatement("select * from users where email=?");
 			pst.setString(1, email);
 			rs = pst.executeQuery();
-			if(rs.next()){
-				if(id == 0 || id != rs.getInt("id")){
-					add_error("email","This email is already taken");
-					status = false;
-				}
-			}
-			
 			
 		} catch (SQLException e) {
-			add_error("email", "This email is already taken");
-			status = false;
-		}
-		
-		//UNIQUE USERNAMES
-		try {
-			pst = conn.prepareStatement("select * from users where username=?");
-			pst.setString(1, username);
-			rs = pst.executeQuery();
-			if(rs.next()){
-				if(id == 0 || id != rs.getInt("id")){
-					add_error("username","This username is already taken");
-					status = false;
-				}
-			}
-			
-			
-		} catch (SQLException e) {
-			add_error("username", "This username is already taken");
+			add_error("Email", "email is already taken");
 			status = false;
 		}
 		
@@ -255,32 +205,16 @@ public class User extends Mappable {
 		if (password != null){
 			if (password.length() < MIN_PASSWORD_LENGTH){
 				status = false;
-				add_error("password","Your password must be at least "+MIN_PASSWORD_LENGTH+" characters long");
+				add_error("Password","must be at least "+MIN_PASSWORD_LENGTH+" characters long");
 			}
 		}
-		if(id == 0 && password == null){
-			status = false;
-			add_error("password","You must enter a password");
-		}
 		
-		if(firstname == null){
-			status = false;
-			add_error("firstname","You must enter a first name");
-		}
-		
-		if(lastname == null){
-			status = false;
-			add_error("lastname","You must enter a last name");
-		}
-		
-		if(username == null){
-			status = false;
-			add_error("username","You must enter a username");
-		}
-		
-		if(email == null){
-			status = false;
-			add_error("email","You must enter an email address");
+		//PASSWORD MUST MATCH (IF PRESENT)
+		if (password != null || password_confirmation != null){
+			if (!password.equals(password_confirmation)){
+				status = false;
+				add_error("Password Confirmation","does not match password");
+			}
 		}
 		
 		return status;
@@ -296,8 +230,8 @@ public class User extends Mappable {
 
 	}
 
-	public void add_error(String key, String error_message){
-		errors.put(key, error_message);
+	private void add_error(String key, String error_message){
+		
 	}
 	
 	public void after_save() {
@@ -317,7 +251,7 @@ public class User extends Mappable {
 	// This will return an array of users (or we can change to a list of something)
 	// based on a passed in SQL query
 	public Mappable[] where(String query) {
-		// TODO Auto-generated method stub
+
 		return null;
 	}
 
@@ -325,6 +259,9 @@ public class User extends Mappable {
 	// Not sure how I want to do that yet, we can place it on the back burner
 	public Mappable[] where() {
 		// TODO Auto-generated method stub
+		
+		
+		
 		return null;
 	}
 
