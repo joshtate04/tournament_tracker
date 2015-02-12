@@ -20,6 +20,7 @@
 	<meta name="author" content="">
 	
 	<title>User Page</title>
+	
 	<%@include file="/includes/head.jsp" %>
       <script>
          $( document ).ready(function() { loadPage() });
@@ -35,6 +36,25 @@
 	<script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
 	<![endif]-->
 	
+	<style style="text/css">
+	  	.hoverTable{
+			width:100%; 
+			border-collapse:collapse; 
+		}
+		.hoverTable td{ 
+			padding:7px; border:#4e95f4 1px solid;
+		}
+		/* Define the default color for all the table rows */
+ 		.hoverTable tr{ 
+			background: #f9f9f9; 
+ 		} 
+		/* Define the hover highlight color for the table row */
+	    .hoverTable tr:hover {
+	        color: #000000;
+    		background: #ebebeb;
+	    }
+	</style>
+	
 	<script>
 	$(document).ready(function($) { 
 		$('ul.sidebar-nav li').click(function() { 
@@ -48,7 +68,23 @@
 					
 				case "teams":
 					$("#update").empty();
-					$("#update").html("<h3>Teams</h3>");
+					$("#update").html("<h3>Teams</h3>"+
+							"<table class=\"hoverTable\">" + 
+							"<tr align=\"center\" style=\"font-weight:bold\">" + 
+								"<td>Name</td>" +
+								"<td>Players</td>" +
+								"<td>Games Played</td>" +
+								"<td>Win Ratio</td>" +
+							"</tr>" +
+							<%for(int i=0; i<10; i++){%>
+								"<tr>"+
+									"<td>Canada</td>"+
+									"<td>Player list</td>"+
+									"<td>opponent X</td>"+
+									"<td>+4</td>"+
+								"<tr>"+
+							<%}%>
+							"</table>");
 					break;
 					
 				case "brackets":
@@ -58,12 +94,43 @@
 					
 				case "pastResults":
 					$("#update").empty();
-					$("#update").html("<h3>Past Results</h3>");
+					$("#update").html("<h3>Past Results</h3>"+
+							"<table class=\"hoverTable\">" + 
+							"<tr align=\"center\" style=\"font-weight:bold\">" + 
+								"<td>Team</td>" +
+								"<td>Opponent</td>" +
+								"<td>Score</td>" +
+								"<td>result</td>" +
+							"</tr>" +
+							<%for(int i=0; i<10; i++){%>
+								"<tr>"+
+									"<td>Canada</td>"+
+									"<td>USA</td>"+
+									"<td>4-1</td>"+
+									"<td>Win</td>"+
+								"<tr>"+
+							<%}%>
+							"</table>");
 					break;
 					
 				case "accountInfo":
 					$("#update").empty();
-					$("#update").html("<h3>Account Information</h3>");
+					$("#update").html("<h3>Account Information</h3>" +
+							"<table style=\"width:30%\">" + 
+								"<tr>" + 
+									"<td>Name:</td>" +
+									"<td><%=user.name()%></td>" +
+								"</tr>" +
+								"<tr>" +
+									"<td>Email:</td>" +
+									"<td><%=user.get_email()%></td>" +
+								"</tr>" +
+								"<tr>" + 
+									"<td>Member Since:</td>" +
+									"<td><%=user.get_reg_date() %></td>" +
+								"</tr>" +				 				
+							"</table>");
+
 					break;
 			}
 		}); 
@@ -98,7 +165,7 @@
 							<img src="/DevRes/defaultProfile.jpg" width="80" height="80" class="img-circle" class="img-thumbnail">
 							<%=session.getAttribute("username") %>
 						</h4>
-						<a href="#menu-toggle" class="btn btn-default" id="menu-toggle">Toggle Menu</a>
+<!-- 						<a href="#menu-toggle" class="btn btn-default" id="menu-toggle">Toggle Menu</a> -->
 						<hr>
 					
 						<div id="update">
