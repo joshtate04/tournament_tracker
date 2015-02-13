@@ -20,6 +20,7 @@ public class LogoutServlet extends HttpServlet{
 	public void doGet(HttpServletRequest request, HttpServletResponse response){
 		
 		try {
+			// Clear Session
 			SessionController.DestroySession(request);
 			response.sendRedirect("/index.jsp");
 		} catch (IOException e) {
