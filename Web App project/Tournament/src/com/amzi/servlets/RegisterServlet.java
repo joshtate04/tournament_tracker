@@ -27,7 +27,7 @@ public class RegisterServlet extends HttpServlet{
     public void doPost(HttpServletRequest request, HttpServletResponse response)    
             throws ServletException, IOException {    
   
-        response.setContentType("text/html");
+    	//Build datamap from input
         HashMap<String,Object> datamap = new HashMap<String,Object>();
         if(!request.getParameter("username").isEmpty())
         	datamap.put("username", request.getParameter("username"));
@@ -40,22 +40,26 @@ public class RegisterServlet extends HttpServlet{
         if(!request.getParameter("email").isEmpty())
         	datamap.put("email", request.getParameter("email"));
         
+        //DEBUG
         System.out.println(request.getParameter("password"));
-        //int permission =  0;
-        int i = 0;
-        //connect to database
         
+        //Create User object
 		User user = new User(datamap);
 		
+		//User successfully saves
 		if(user.save()){
+			//DEBUG
 			System.out.println("User saved!");
+			//Create session_id and assign to user/current session
 			String session_id = new BigInteger(130, new SecureRandom()).toString(32);
 			user.CreateSession(session_id);
 			request.getSession().setAttribute("session_id", session_id);
+			//DEBUG
 			System.out.println("Sign up succeeded");
 			response.sendRedirect("/UserPage/UserPage.jsp");
 		}
 		else {
+			//Keep user attributes to resubmit form
 			Iterator param_iterator = datamap.entrySet().iterator();
 			while(param_iterator.hasNext()){
 				Map.Entry pair = (Map.Entry)param_iterator.next();
@@ -63,16 +67,20 @@ public class RegisterServlet extends HttpServlet{
 				response.addHeader(pair.getKey().toString(), pair.getValue().toString());
 			}
 			
+			//Build errors to attach to form
 			Iterator error_iterator = user.errors().entrySet().iterator();
 			while(error_iterator.hasNext()){
 				Map.Entry pair = (Map.Entry)error_iterator.next();
+				//DEBUG
 				System.out.println("ERROR: "+pair.toString());
 				response.addHeader(pair.getKey().toString()+"_error", pair.getValue().toString());
 			}
+			//DEBUG
 			System.out.println("Sign up failed");
 			response.addHeader("signup", "fail");
 			RequestDispatcher rd = request
 					.getRequestDispatcher("/Login/signup.jsp");
+			//DEBUG
 			System.out.println(response.containsHeader("email"));
 			rd.forward(request, response);
 		}
