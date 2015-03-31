@@ -6,7 +6,7 @@
 ### What is this repository for? ###
 
 * This repository is being used to house the source code and updates pertaining to the Tournament Tracker project
-* Version 0.2
+* Version 0.3 Dev Version 1.0
 * [Learn Markdown](https://bitbucket.org/tutorials/markdowndemo)
 
 ### How do I get set up? ###
