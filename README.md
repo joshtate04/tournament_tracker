@@ -6,8 +6,7 @@
 ### What is this repository for? ###
 
 * This repository is being used to house the source code and updates pertaining to the Tournament Tracker project
-* Version 0.3 Dev Version 1.0
-* [Learn Markdown](https://bitbucket.org/tutorials/markdowndemo)
+* Version 1.0
 
 ### How do I get set up? ###
 
@@ -18,6 +17,7 @@
 * All Java development is being done in Eclipse Luna IDE
 * How to run tests
 * Deployment instructions
+* For progress documentation visit: https://www.icloud.com/pages/AwBvCAESEJmtR0dQpI7qus48mSd36FUaPdPW5YYgaNoYPpDnDaR3OxGEbwf4GdXjvWL6S5hjTS881RcS4DUVL9QTaPpZ6TALW48Yu-gS9kZ38mRXvKAMCUCAQEEIL1Fw7NefpAW3b8LNwPQvCEZ3k0YE1USb4NiI9mpSUv4#Tournament_Tracker
 
 ### Contribution guidelines ###
 
