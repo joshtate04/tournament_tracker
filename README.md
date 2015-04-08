@@ -23,7 +23,7 @@
 
 * Writing tests
 * Code review
-* Other guidelines
+* A graphical representation can be seen at: https://kanbanflow.com/board/15c652b8de94fda292546e75d3b0a1c8
 *All code is pushed to a Development stage and tested before being used in the master.
 This technique allows for seamless testing and allows all developers to contribute without having overwrite issues.
 
