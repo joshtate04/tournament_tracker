@@ -11,18 +11,16 @@
 ### How do I get set up? ###
 
 * Summary of set up
-* Configuration
-* Dependencies
-* Database being used is mySQL
+* Configuration files for DB under src/mappable/config
+* Dependencies Java 8 with Tomcat Server
+* Database being used is mySQL 
 * All Java development is being done in Eclipse Luna IDE
-* How to run tests
 * Deployment instructions
-* For progress documentation visit: https://www.icloud.com/pages/AwBvCAESEJmtR0dQpI7qus48mSd36FUaPdPW5YYgaNoYPpDnDaR3OxGEbwf4GdXjvWL6S5hjTS881RcS4DUVL9QTaPpZ6TALW48Yu-gS9kZ38mRXvKAMCUCAQEEIL1Fw7NefpAW3b8LNwPQvCEZ3k0YE1USb4NiI9mpSUv4#Tournament_Tracker
+* For progress documentation visit: 
+https://onedrive.live.com/?cid=9AFCBECC855AC185&id=9afcbecc855ac185%21474
 
 ### Contribution guidelines ###
 
-* Writing tests
-* Code review
 * All code is pushed to a Development stage and tested before being used in the master.
 This technique allows for seamless testing and allows all developers to contribute without having overwrite issues.
 * A graphical representation can be seen at: https://kanbanflow.com/board/15c652b8de94fda292546e75d3b0a1c8 
